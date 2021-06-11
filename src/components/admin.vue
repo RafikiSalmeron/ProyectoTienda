@@ -2,7 +2,6 @@
   <div class="admin-container">
     <Header />
     <h3>Añadir producto</h3>
-    <vue-confirm-dialog></vue-confirm-dialog>
     <div id="divAñadir">
       <table class="añadir">
         <tr>
@@ -71,7 +70,8 @@
         >
       </div>
     </div>
-    <div class="div-container-produc">
+    <cube-spin v-if="productos.length == 0"></cube-spin>
+    <div v-else class="div-container-produc">
       <div
         class="admin-product"
         v-for="producto in productos"
@@ -110,9 +110,10 @@
 import { db } from "../db";
 import Header from "./header.vue";
 import Footer from "./footer.vue";
+import CubeSpin from "../../node_modules/vue-loading-spinner/src/components/Circle";
 
 export default {
-  components: { Header, Footer },
+  components: { Header, CubeSpin, Footer },
   name: "Test",
   props: {},
   data() {

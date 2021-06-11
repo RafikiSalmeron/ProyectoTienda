@@ -45,11 +45,12 @@ h3{
     @include flexRow();
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
     border-top: 1px solid rgba(148, 148, 148, 0.76);
     padding: 1rem;
     // Aplico tamaño a las diferentes partes del contenedor
     .img-container {
-        width: 20%;
+        //width: 20%;
         // Aplico un tamaño fijo a la imagen
         img {
             width: 10rem;
@@ -60,7 +61,7 @@ h3{
         width: 60%;
       }
       .text-container {
-        width: 20%;
+        //width: 20%;
       }
     // Le aplico a los botones
     button{

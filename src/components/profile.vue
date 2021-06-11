@@ -122,10 +122,14 @@ export default {
   },
   methods: {
     getPedidos: function () {
-      this.$bind(
-        "pedidos",
-        db.collection("Pedidos").where("email", "==", this.email)
-      );
+      if (this.email == "admin@admin.com") {
+        this.$bind("pedidos", db.collection("Pedidos"));
+      } else {
+        this.$bind(
+          "pedidos",
+          db.collection("Pedidos").where("email", "==", this.email)
+        );
+      }
       setTimeout(() => {
         if (this.pedidos.length == 0) {
           this.exist = false;

@@ -1,6 +1,7 @@
 <template>
   <section>
     <nav class="navbar navbar-expand-lg navbar-light">
+      <vue-confirm-dialog></vue-confirm-dialog>
       <router-link to="/">
         <img src="../assets/rafiki.png" />
       </router-link>
@@ -118,9 +119,29 @@ export default {
         });
     },
     administrador() {
-      if (this.$route.name != "admin") {
-        this.$router.push({ name: "admin" });
-      }
+      this.$confirm({
+        message: `¿Dónde deseas acceder?`,
+        button: {
+          no: "Administrador de productos",
+          yes: "Historial de ventas",
+        },
+        /**
+         * Callback Function
+         * @param {Boolean} confirm
+         */
+        callback: (confirm) => {
+          console.log(confirm);
+          if (confirm) {
+            if (this.$route.name != "profile") {
+              this.$router.push({ name: "profile" });
+            }
+          } else {
+            if (this.$route.name != "admin") {
+              this.$router.push({ name: "admin" });
+            }
+          }
+        },
+      });
     },
     userProfile() {
       this.$router.push({ name: "login" });
