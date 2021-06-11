@@ -14,15 +14,18 @@
         v-for="object in pedidos"
         v-bind:key="object.id"
       >
-        <div class="visual-container">
-          <div>{{ object.fecha }}</div>
-          <div class="ml-1">Total: {{ object.total }}</div>
-          <i
-            @click="displayPedido(object.id)"
-            :id="'flecha' + object.id"
-            class="fa fa-arrow-down"
-            aria-hidden="true"
-          ></i>
+        <div class="visual-container-main">
+          <div v-if="admin">{{ object.email }}</div>
+          <div class="visual-container">
+            <div>{{ object.fecha }}</div>
+            <div class="ml-1">Total: {{ object.total }}</div>
+            <i
+              @click="displayPedido(object.id)"
+              :id="'flecha' + object.id"
+              class="fa fa-arrow-down"
+              aria-hidden="true"
+            ></i>
+          </div>
         </div>
         <div :id="object.id" class="pedidosMostrar">
           <div
@@ -84,6 +87,7 @@ export default {
       },
       email: "",
       exist: true,
+      admin: false,
     };
   },
   computed: {
@@ -123,6 +127,7 @@ export default {
   methods: {
     getPedidos: function () {
       if (this.email == "admin@admin.com") {
+        this.admin = true;
         this.$bind("pedidos", db.collection("Pedidos"));
       } else {
         this.$bind(
@@ -134,7 +139,7 @@ export default {
         if (this.pedidos.length == 0) {
           this.exist = false;
         }
-      }, 500);
+      }, 1000);
     },
     displayPedido(idDiv) {
       var div = document.getElementById(idDiv);

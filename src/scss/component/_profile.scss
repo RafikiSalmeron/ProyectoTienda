@@ -7,25 +7,29 @@
     justify-content: center;
     align-items: center;
 
-  .visual-container{
-    @include flexRow();
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    background-color: rgba(color(fondoSecon), 0.4);
-    border: 1px solid color(fondoSecon);
-    padding: 1rem;
-    width: 85%;
-    margin: 1rem;
+    .visual-container-main{
+      @include flexColumn();
+      background-color: rgba(color(fondoSecon), 0.4);
+      border: 1px solid color(fondoSecon);
+      justify-content: center;
+      padding: 1rem;
+      width: 85%;
+      margin: 1rem;
 
-    i{
-      padding: 0.5rem;
-      &:hover {
-        transform: scale(1.4);
-        cursor: pointer;
-      }
+      .visual-container{
+        @include flexRow();
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        i{
+          padding: 0.5rem;
+          &:hover {
+            transform: scale(1.4);
+            cursor: pointer;
+          }
+        }
+      } 
     }
-  } 
 
   .pedidosMostrar{
     display: none;

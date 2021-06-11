@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="topFooter">
-      <a target="_blank" href="mailto:elcorreoquequieres@correo.com">
+      <a target="_blank" href="mailto:rafikisalmeronmartos@gmail.com">
         <i class="fa fa-envelope" aria-hidden="true"></i>
       </a>
       <a target="_blank" href="https://www.google.es/maps/preview">
@@ -34,5 +34,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "../scss/component/_footer.scss";
+@import "../scss/component/_footer.scss";
 </style>
