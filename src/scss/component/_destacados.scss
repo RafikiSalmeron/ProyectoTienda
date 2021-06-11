@@ -1,0 +1,65 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+// Importo las fuentes
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+// Le aplico el estilo de la fuente a las cabeceras
+h2 {
+    margin: 2rem;
+    font-family: 'Akaya Telivigala', sans-serif;
+    font-size: size(xl)
+  }
+  // Aplico posicionamiento al contenedor de las novedades
+  .noved-container {
+    @include flexRow();
+    flex-wrap: wrap;
+    justify-content: space-around;
+    // Aplico estilo a cada tarjeta de novedad
+    .noved-card {
+      border: 1px solid color(primary);
+      width: 400px;
+      margin: 2rem;
+      padding: 1rem;
+      background-color: color(negroFondo);
+      font-family: 'Quicksand', sans-serif;
+      border-radius: 8px;
+      color: color(secondary);
+      // Aplico estilo cuando pasas por encima
+      &:hover{
+        transform: scale(1.1);
+      }
+      // Aplico tamaño de la imagen de la tarjeta
+      img {
+        width: 200px;
+        height: 180px;
+        // Aplico animación cuando pasas por encima
+        &:hover{
+          transform: rotate(-20deg);
+        }
+      }
+      // Aplico estilo de letra
+      .bold {
+        font-weight: bold;
+      }
+      // Aplico estilo al precio del producto
+      .precio {
+        font-size: size(md);
+        background-color: color(tertiary);
+        border-radius: 8px;
+      }
+      // Aplico estilo al botón de añadir al carrito
+      .btnAddChart {
+        font-size: size(md);
+        background-color: color(secondary);
+        border-radius: 8px;
+        border: none;
+        // Aplico estilo cuando pasas por encima
+        &:hover {
+          transform: scale(1.1);
+          color: color(secondary);
+          background-color: color(negroFondo);
+        }
+      }
+    }
+  }

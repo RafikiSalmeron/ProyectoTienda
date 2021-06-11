@@ -1,0 +1,71 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+.div-container-pedido{
+  min-height: 50vh;
+  .pedidos-product{
+    @include flexColumn();
+    justify-content: center;
+    align-items: center;
+
+  .visual-container{
+    @include flexRow();
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: rgba(color(fondoSecon), 0.4);
+    border: 1px solid color(fondoSecon);
+    padding: 1rem;
+    width: 85%;
+    margin: 1rem;
+
+    i{
+      padding: 0.5rem;
+      &:hover {
+        transform: scale(1.4);
+        cursor: pointer;
+      }
+    }
+  } 
+
+  .pedidosMostrar{
+    display: none;
+    flex-direction: column;
+    width: 85%;
+    // Aplico posicionamiento al div contenedor de productos
+    .pedido-product {
+      @include flexRow();
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(148, 148, 148, 0.76);
+        padding: 1rem;
+        // Aplico tamaño a las diferentes partes del contenedor
+        .img-container {
+            // Aplico un tamaño fijo a la imagen
+            margin-bottom: 0.3rem;
+            img {
+                width: 10rem;
+                height: 10rem;
+              }
+          }
+          .desc-container {
+            width: 60%;
+          }
+
+        // Le aplico a los botones
+        button{
+            border-radius: 5px;
+            border-style: solid;
+            margin: 5px;
+            border-color: color(azulBtn);
+            // Le aplico estilo cuando pasas por encima
+            &:hover {
+                color: color(secondary);
+                background-color: color(azulBtn);
+                transform: scale(1.05);
+                }
+        }  
+      }
+    }
+  }
+}

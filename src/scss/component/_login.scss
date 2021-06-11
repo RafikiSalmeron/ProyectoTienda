@@ -1,0 +1,82 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+
+// Contenedor de todos los elementos del login
+.container-login {
+  // Cabecera, a la que le aplico posicionamiento
+    nav {
+      display: flex;
+      justify-content: center;
+      // Le aplico un tamaño fijo a la imagen
+      img {
+        width: 64px;
+        height: 64px;
+        // Le aplico una animación a la imagen cuando pasas por encima
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+    // Le aplico margen al h2
+    h2 {
+      margin: 2rem;
+      margin-bottom: 1rem;
+    }
+    // Le aplico tamaño de letra a los label
+    label {
+      font-size: size(xs);
+    }
+    // Le aplico tamaño a los imput y tamaño de letra
+    input {
+      width: 60%;
+      text-align: center;
+      font-size: size(xs);
+      margin-bottom: 1rem;
+      // Le aplico un tamaño distinto según el tamaño de la pantalla
+      @include response(md) {
+        width: 40%;
+      }
+    }
+    // Le aplico posicionamiento al contenedor de los botones de login
+    .login {
+      @include flexColumn();
+      justify-content: space-around;
+      align-items: center;
+     // Le aplico a los botones
+      button {
+        width: 60vw;
+        font-size: size(xs);
+        border-style: solid;
+        margin: 1rem;
+        border-color: color(azulBtn);
+        border-radius: 7px;
+        // Le aplico un tamaño distinto según el tamaño de la pantalla
+        @include response(md) {
+          width: 40vw;
+        }
+        // Le aplico estilo cuando pasas por encima
+        &:hover {
+          color: color(secondary);
+          background-color: color(azulBtn);
+          transform: scale(1.05);
+        }
+      }
+      // Le aplico estilo y margen al primer boton
+      .first {
+        margin-bottom: 3rem;
+        border-color: color(verde);
+        // Le aplico estilo cuando pasas por encima
+        &:hover {
+          background-color: color(verde);
+        }
+      }
+      // Le aplico estilo y margen al último boton
+      .register {
+        border-color: color(negroBtn);
+        // Le aplico estilo cuando pasas por encima
+        &:hover {
+          background-color: color(negroBtn);
+        }
+      }
+    }
+  }

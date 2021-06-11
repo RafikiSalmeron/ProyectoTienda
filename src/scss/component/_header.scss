@@ -1,0 +1,54 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+// Aplico color de letra en blanco 
+nav {
+  color: color(secondary);
+  background-color: color(fondoSecon);
+  // Aplico tamaño para el logo
+  img {
+    width: 64px;
+    height: 64px;
+    margin-right: 2rem;
+    // Aplico estilo cuando pasas por encima
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .carroPerfil {
+    @include flexRow();
+    justify-content: center;
+    margin: 1rem;
+    
+    @include response(lg) {
+      margin: 0;
+    }
+  }
+
+  // Aplico posicionamiento y tamaño de letra a los iconos del carrito e iniciar sesión
+  i {
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mrgRL(1rem);
+    // Aplico estilo cuando pasas por encima
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+    // Aplico tamaño de letra y margen a cada icono
+    .inside-i {
+      font-size: size(xs);
+      margin-left: 1rem;
+    }
+  }
+}
+.botHeader {
+  padding: 1rem;
+  background-color: color(fondo); 
+  .nav-link:not(.active) {
+    cursor: pointer;
+    color:white;
+  } 
+}

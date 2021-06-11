@@ -1,0 +1,38 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+// Aplico un color de fondo al footer
+footer {
+    background-color: color(fondo);
+    // Aplico relleno a la parte superior del footer
+    .topFooter {
+      padding: 1rem;
+      // Aplico el estilo para las redes sociales
+      i {
+        font-size: size(xs);
+        color: color(secondary);
+        padding: 10px;
+        border: 2px solid color(secondary);
+        border-radius: 5px;
+        min-width: 3rem;
+        margin: 1rem;
+        // Animación que mueve las redes sociales al pasar por encima
+        &:hover {
+          -moz-transform: translate(-0px, -15px);
+          -ms-transform: translate(-0px, -15px);
+          -o-transform: translate(-0px, -15px);
+          -webkit-transform: translate(-0px, -15px);
+          transform: translate(-0px, -15px);
+        }
+      }
+    }
+    // Aplico relleno y color de fondo a la parte inferior del footer
+    .botFooter {
+      padding: 1rem;
+      background-color: color(fondoSecon);
+      // Aplico color al copyright 
+      p{
+        margin: 0;
+        color: color(secondary);
+      }
+    }
+}

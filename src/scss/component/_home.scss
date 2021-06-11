@@ -1,0 +1,12 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+// Aplico estilo para el hero
+.jumbotron{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.272),rgba(0, 0, 0, 0.518)),url("../assets/fondo.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 93vh;
+    margin: 0;
+    border-radius: 0;
+  }

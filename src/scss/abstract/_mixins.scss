@@ -1,0 +1,50 @@
+// Aplica margen top y bot //
+@mixin mrgTB($top, $bot) {
+    margin-top: $top;
+    margin-bottom: $bot;
+}
+
+// Aplica margen left y right //
+@mixin mrgRL($val) {
+    margin-left: $val;
+    margin-right: $val;
+}
+
+// Aplica display flex y direction column //
+@mixin flexColumn(){
+    display: flex;
+    flex-direction: column;
+}
+
+// Aplica display flex y direction row //
+@mixin flexRow(){
+    display: flex;
+    flex-direction: row;
+}
+
+// Diferentes tamaños de pantalla //
+@mixin response($breakpoint) {
+    @if($breakpoint == xl){
+        @media(min-width: 1200px){
+            @content;
+        }
+    }
+
+    @if($breakpoint == lg){
+        @media(min-width: 992px){
+            @content;
+        }
+    }
+
+    @if($breakpoint == md){
+        @media(min-width: 768px){
+            @content;
+        }
+    }
+
+    @if($breakpoint == sm){
+        @media(min-width: 576px){
+            @content;
+        }
+    }
+}

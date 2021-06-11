@@ -1,0 +1,30 @@
+//Paleta de colores//
+$colors: (
+    primary: rgb(0, 0, 0),
+    secondary: rgb(255, 255, 255),
+    tertiary: rgba(0, 0, 0, 0.397),
+    quaternary: rgba(65, 63, 63, 0.397),
+    verde: #5cb85c,
+    fondo: #424242,
+    fondoSecon: #262626,
+    azulBtn: #0275d8,
+    negroBtn: #292b2c,
+    negroFondo: rgba(12, 12, 12, 0.747),
+);
+//Función que devuelve un color//
+@function color ($color-name){
+    @return map-get($colors, $color-name);
+}
+
+//Tamaños de la fuente//
+$font-sizes:(
+    xl:3rem,
+    lg:2.5rem,
+    md:2rem,
+    sm:1.7rem,
+    xs:1.5rem
+);
+//Función que devuelve un tamaño// 
+@function size($size){
+    @return map-get($font-sizes, $size);
+}

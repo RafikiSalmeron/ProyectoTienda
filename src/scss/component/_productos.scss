@@ -1,0 +1,77 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+// Importo las fuentes
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+// Le aplico el estilo de la fuente a las cabeceras
+h2 {
+    margin: 2rem;
+    font-family: 'Akaya Telivigala', sans-serif;
+    font-size: size(xl)
+  }
+  // Aplico posicionamiento al contenedor de los productos
+  .productos-container {
+    min-height: 50vh;
+    @include flexRow();
+    flex-wrap: wrap;
+    justify-content: space-around;
+    // Aplico estilo a cada tarjeta de producto
+    .produc-card {
+      border: 1px solid color(primary);
+      width: 300px;
+      margin: 2rem;
+      padding: 1rem;
+      background-color: color(negroFondo);
+      border-radius: 8px;
+      font-family: 'Quicksand', sans-serif;
+      color: color(secondary);
+      position: relative;
+      // Aplico estilo cuando pasas por encima
+      &:hover {
+        transform: scale(1.1);
+      }
+      // Aplico tamaño de la imagen de la tarjeta
+      img {
+        width: 200px;
+        height: 180px;
+        // Aplico animación cuando pasas por encima
+        &:hover {
+          transform: rotate(20deg);
+        }
+      }
+      // Aplico estilo de letra
+      .bold {
+        font-weight: bold;
+      }
+      // Aplico estilo al precio del producto
+      .precio {
+        font-size: 2rem;
+        background-color: color(tertiary);
+        border-radius: 8px;
+      }
+      // Aplico margen al párrafo de stock
+      .stock {
+        margin-bottom: 3rem;
+      }
+      
+      // Aplico posicionamiento al contenedor del botón de añadir al carrito
+      .btnContainer {
+        position: absolute;
+        bottom: 2%;
+        left: 8.5%;
+        // Aplico estilo al botón de añadir al carrito
+        .btnAddChart {
+          font-size: size(md);
+          background-color: color(secondary);
+          border-radius: 8px;
+          border: none;
+          // Aplico estilo cuando pasas por encima
+          &:hover {
+            transform: scale(1.1);
+            color: color(secondary);
+            background-color: color(negroFondo);
+          }
+        }
+      }
+    }
+  }

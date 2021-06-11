@@ -1,0 +1,66 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+
+// Contenedor de todos los elementos del register
+.register-container {
+    // Cabecera, a la que le aplico posicionamiento
+    nav {
+      @include flexRow();
+      justify-content: center;
+      // Le aplico un tamaño fijo a la imagen
+      img {
+        width: 64px;
+        height: 64px;
+        // Le aplico una animación a la imagen cuando pasas por encima
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+    // Contenedor del register, le aplico posicionamiento y tamaño
+    .container {
+      width: 100vw;
+      min-height: 73vh;
+      @include flexRow();
+      justify-content: center;
+      align-items: center;
+      // Le aplico margen al h2
+      h2 {
+        margin: 2rem;
+      }
+      // Le aplico tamaño de letra a los label
+      label {
+        font-size: size(xs);
+      }
+      // Le aplico tamaño a los imput y tamaño de letra
+      input {
+        width: 60vw;
+        // Le aplico un tamaño distinto según el tamaño de la pantalla
+        @include response(lg) {
+          width: 40vw;
+        }
+        text-align: center;
+        font-size: size(xs);
+        margin-bottom: 1rem;
+      }
+      // Le aplico tamaño y estilo al botón de registrarse
+      button {
+        margin: 3rem;
+        border-color: color(verde);
+        border-radius: 7px;
+        border-style: solid;
+        font-size: size(xs);
+        width: 60vw;
+        // Le aplico un tamaño distinto según el tamaño de la pantalla
+        @include response(lg) {
+          width: 40vw;
+        }
+        // Le aplico estilo cuando pasas por encima
+        &:hover {
+          background-color:color(verde);
+          color: color(secondary);
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
