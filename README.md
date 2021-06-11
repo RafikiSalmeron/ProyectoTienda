@@ -19,7 +19,7 @@ La página contiene tecnologías avanzadas de firebase, para todo el control de 
 (https://tienda-proyecto-cb7c6.firebaseapp.com/#/)
 
 <h3> Proyecto GitHub </h3>
-(https://github.com/RafikiSalmeron/TiendaVue)
+(https://github.com/RafikiSalmeron/ProyectoTienda)
 
 
 <h2> RAFAEL SALMERÓN MARTOS </h2>
