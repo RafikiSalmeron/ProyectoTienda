@@ -7,6 +7,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { firestorePlugin } from 'vuefire'
 Vue.use(firestorePlugin)
 
+import VueConfirmDialog from 'vue-confirm-dialog'
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
+
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 

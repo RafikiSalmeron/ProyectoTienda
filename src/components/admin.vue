@@ -2,6 +2,7 @@
   <div class="admin-container">
     <Header />
     <h3>Añadir producto</h3>
+    <vue-confirm-dialog></vue-confirm-dialog>
     <div id="divAñadir">
       <table class="añadir">
         <tr>
@@ -43,7 +44,7 @@
       <div class="boton">
         <i
           v-if="edit"
-          @click="editarProducto()"
+          @click="confirmarEdit()"
           class="fa fa-check fa-2x"
           style="color: #198754"
           aria-hidden="true"
@@ -52,7 +53,7 @@
         >
         <i
           v-else
-          @click="addProduct"
+          @click="confirmarAdd()"
           class="fa fa-plus-square fa-2x"
           style="color: #198754"
           aria-hidden="true"
@@ -61,7 +62,7 @@
         >
         <i
           v-if="edit"
-          @click="cancelarEdit"
+          @click="cancelarEdit()"
           class="fa fa-times fa-2x"
           style="color: #198754"
           aria-hidden="true"
@@ -96,7 +97,7 @@
             <strong>Precio: {{ producto.Precio }}</strong>
           </p>
           <button @click="editarCampos(producto)">Editar</button>
-          <button @click="borrarProducto(producto)">Eliminar</button>
+          <button @click="confirmarBorrar(producto)">Eliminar</button>
         </div>
       </div>
     </div>
@@ -163,6 +164,27 @@ export default {
       this.adminStock = product.stock;
       this.cbNovedad = product.novedad;
     },
+    confirmarEdit() {
+      this.$confirm({
+        message: `¿Estás seguro que deseas editar el producto?`,
+        button: {
+          no: "No",
+          yes: "Sí",
+        },
+        /**
+         * Callback Function
+         * @param {Boolean} confirm
+         */
+        callback: (confirm) => {
+          if (confirm) {
+            // ... do something
+            this.editarProducto();
+          } else {
+            return;
+          }
+        },
+      });
+    },
     editarProducto() {
       if (!this.checkNovedad(true)) {
         this.$notify({
@@ -209,6 +231,27 @@ export default {
         text: "El producto se ha editado.",
       });
     },
+    confirmarBorrar(product) {
+      this.$confirm({
+        message: `¿Estás seguro que deseas eliminar el producto?`,
+        button: {
+          no: "No",
+          yes: "Sí",
+        },
+        /**
+         * Callback Function
+         * @param {Boolean} confirm
+         */
+        callback: (confirm) => {
+          if (confirm) {
+            // ... do something
+            this.borrarProducto(product);
+          } else {
+            return;
+          }
+        },
+      });
+    },
     borrarProducto(product) {
       for (let itemCarro of this.carrito) {
         if (itemCarro.idProduct == product.id) {
@@ -235,12 +278,33 @@ export default {
       this.adminStock = 0;
       this.cbNovedad = false;
     },
+    confirmarAdd() {
+      this.$confirm({
+        message: `¿Estás seguro que deseas añadir un nuevo producto?`,
+        button: {
+          no: "No",
+          yes: "Sí",
+        },
+        /**
+         * Callback Function
+         * @param {Boolean} confirm
+         */
+        callback: (confirm) => {
+          if (confirm) {
+            // ... do something
+            this.addProduct();
+          } else {
+            return;
+          }
+        },
+      });
+    },
     addProduct() {
       if (!this.checkNovedad(false)) {
         this.$notify({
-          title: "Producto NO añadido",
+          title: "Error novedades",
           type: "error",
-          text: "El producto se ha añadido.",
+          text: "No se pueden mostrar más de 3 productos como novedad.",
         });
         return;
       }
