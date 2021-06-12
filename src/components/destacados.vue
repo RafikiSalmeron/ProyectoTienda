@@ -1,6 +1,6 @@
 <template>
   <div id="noved-main-container">
-    <h2>Destacados</h2>
+    <h2>Productos destacados</h2>
     <cube-spin v-if="destacados.length == 0"></cube-spin>
     <div class="noved-container">
       <div

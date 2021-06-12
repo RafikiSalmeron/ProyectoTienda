@@ -9,25 +9,29 @@
         <div class="img-container">
           <img :src="producto.img" alt="Producto" />
         </div>
-
-        <div class="desc-container">
-          <p>
-            <strong>{{ producto.Nombre }}</strong>
-          </p>
-          <p>
-            <strong>Descripción</strong>
-          </p>
-          <p>
-            {{ producto.descripcion }}
-          </p>
-        </div>
-        <div class="text-container">
-          <p>
-            <strong>Stock: {{ producto.stock }}</strong>
-          </p>
-          <p>
-            <strong>Precio: {{ producto.Precio }} €</strong>
-          </p>
+        <div class="descText-container">
+          <div class="desc-container">
+            <p class="pNombre">
+              <strong>{{ producto.Nombre }}</strong>
+            </p>
+            <p class="pDescripcion" align="left">
+              <strong>Descripción</strong>
+            </p>
+            <p class="descripcion" align="justify">
+              {{ producto.descripcion }}
+            </p>
+          </div>
+          <div class="text-container">
+            <p align="left">
+              <strong style="color: red" v-if="producto.stock == 0"
+                >¡No hay stock disponible!</strong
+              >
+              <strong v-else>Stock: {{ producto.stock }}</strong>
+            </p>
+            <p class="precio">
+              <strong>Precio: {{ producto.Precio }} €</strong>
+            </p>
+          </div>
         </div>
       </div>
       <button

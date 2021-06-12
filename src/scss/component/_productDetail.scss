@@ -1,37 +1,69 @@
 @import "../abstract/_mixins.scss";
 @import "../abstract/_variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
+.div-container-pedido{
+  min-height: 65vh;
 // Aplico posicionamiento al div contenedor de productos
 .pedido-product {
     @include flexRow();
+    margin-top: 1rem;;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
-    border-top: 1px solid rgba(148, 148, 148, 0.76);
     padding: 1rem;
     // Aplico tamaño a las diferentes partes del contenedor
     .img-container {
       // Aplico un tamaño fijo a la imagen
       margin-bottom: 0.3rem;
       img {
-          width: 10rem;
-          height: 10rem;
+          width: 25rem;
+          height: 25rem;
         }
     }
-    .desc-container {
+    .descText-container{
+      font-family: 'Quicksand', sans-serif;
+      @include flexColumn();
+      align-items: center;
       width: 60%;
+      .desc-container{
+        width: 100%;
+        .pNombre{
+          font-size: size(md);
+        }
+        .pDescripcion{
+          font-size: size(sm);
+          @include mrgTB(2rem,1rem)
+        }
+        .descripcion{
+          font-size: 1.2rem;
+        }
+      }
+      .text-container{
+        width: 100%;
+        .precio{
+          font-size: size(md);
+        }
+      }
     }
     // Le aplico a los botones
-    button{
-        border-radius: 5px;
-        border-style: solid;
-        margin: 5px;
-        border-color: color(azulBtn);
-        // Le aplico estilo cuando pasas por encima
-        &:hover {
-            color: color(secondary);
-            background-color: color(azulBtn);
-            transform: scale(1.05);
-          }
-    }  
   }
+  .btnAddChart {
+    font-size: size(md);
+    background-color: color(fondo);
+    color: white;
+    border-radius: 8px;
+    border: solid 1px;
+    @include mrgTB(1rem,2rem);
+    padding: 1rem;
+    font-family: 'Quicksand', sans-serif;
+
+    // Aplico estilo cuando pasas por encima
+    &:hover {
+      transform: scale(1.1);
+      color: color(secondary);
+      border: solid 1px;
+      background-color: color(fondoSecon);
+    }
+  }
+}
