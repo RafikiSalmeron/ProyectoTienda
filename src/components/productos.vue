@@ -14,9 +14,10 @@
         />
       </div>
     </div>
-    <h2 v-if="productosFilter == 0 && !exist">
+    <h3 v-if="productosFilter == 0 && !exist">
       No se ha encontrado el producto a buscar
-    </h2>
+      <i class="fa fa-frown-o" aria-hidden="true"></i>
+    </h3>
     <h2 v-else>Productos</h2>
     <cube-spin v-if="productosFilter == 0 && exist"></cube-spin>
     <div class="productos-container">

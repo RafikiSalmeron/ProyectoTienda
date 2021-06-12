@@ -5,6 +5,14 @@
       <i class="fa fa-bookmark" aria-hidden="true"></i> Historial de compras de
       {{ getnombre }}
     </h3>
+    <GChart
+      id="grafica"
+      :settings="{ packages: ['corechart', 'table', 'map'] }"
+      type="PieChart"
+      :data="implementarGrafica"
+      :options="chartOptions"
+      v-if="admin"
+    />
     <h2 v-if="pedidos.length == 0 && !exist">NO HAY PEDIDOS</h2>
     <div class="div-container-pedido">
       <cube-spin v-if="pedidos.length == 0 && exist"></cube-spin>
@@ -67,6 +75,7 @@ import Header from "./header.vue";
 import Footer from "./footer.vue";
 import Firebase from "../db";
 import CubeSpin from "../../node_modules/vue-loading-spinner/src/components/Circle";
+import { GChart } from "vue-google-charts";
 
 import { db } from "../db";
 
@@ -76,11 +85,13 @@ export default {
   components: {
     Header,
     CubeSpin,
+    GChart,
     Footer,
   },
   data() {
     return {
       pedidos: [],
+      prodDestacados: [],
       user: {
         loggedIn: false,
         data: {},
@@ -88,6 +99,17 @@ export default {
       email: "",
       exist: true,
       admin: false,
+      chartData: [],
+      chartOptions: {
+        title: "Gráfica de ventas",
+        chartArea: {
+          width: 500,
+        },
+        backgroundColor: {
+          fill: "#e6e4e4",
+        },
+        is3D: true,
+      },
     };
   },
   computed: {
@@ -103,6 +125,14 @@ export default {
       const nombre = usuarioModificado[0];
       // Retornamos ese valor como nombre
       return nombre;
+    },
+    implementarGrafica: function () {
+      let valores = [["Producto", "Veces vendido"]];
+
+      for (let item of this.prodDestacados) {
+        valores.push([item.Nombre, item.vecesVendido]);
+      }
+      return valores;
     },
   },
   mounted: function () {
@@ -161,6 +191,10 @@ export default {
     pedidos: db
       .collection("Pedidos")
       .where("email", "==", Firebase.auth.currentUser ? this.email : ""),
+    prodDestacados: db
+      .collection("Productos")
+      .orderBy("vecesVendido", "desc")
+      .limit(7),
   },
 };
 </script>

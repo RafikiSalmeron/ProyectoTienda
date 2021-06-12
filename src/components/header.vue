@@ -73,7 +73,7 @@
         </li>
         <li class="nav-item" @click="toAboutUs()">
           <a class="nav-link" id="nav-link-aboutUs" aria-current="page"
-            >Nosotros</a
+            >¿Quiénes somos?</a
           >
         </li>
       </ul>

@@ -1,0 +1,27 @@
+@import "../abstract/_mixins.scss";
+@import "../abstract/_variables.scss";
+
+// Aplico estilo para el hero
+.jumbotron{
+    background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0.272),rgba(0, 0, 0, 0.518)),url("../assets/fondo.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    margin: 0;
+    border-radius: 0;
+}
+
+.text-aboutUs-container{
+    @include flexColumn();
+    justify-content: center;
+    align-items: center;
+    h3{
+        @include mrgTB(2rem,0);
+        font-size: size(lg);
+    }
+    .text-aboutUs{
+        font-family: Arial, sans-serif;
+        font-size: size(xs);
+    }
+}
