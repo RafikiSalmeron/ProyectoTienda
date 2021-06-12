@@ -105,6 +105,7 @@ export default {
         chartArea: {
           width: 500,
         },
+        pieSliceText: "none",
         backgroundColor: {
           fill: "#e6e4e4",
         },
@@ -127,10 +128,16 @@ export default {
       return nombre;
     },
     implementarGrafica: function () {
-      let valores = [["Producto", "Veces vendido"]];
+      let valores = [
+        ["Producto", "Veces vendido", { type: "string", role: "tooltip" }],
+      ];
 
       for (let item of this.prodDestacados) {
-        valores.push([item.Nombre, item.vecesVendido]);
+        valores.push([
+          item.Nombre,
+          item.vecesVendido,
+          item.vecesVendido + " veces vendido",
+        ]);
       }
       return valores;
     },

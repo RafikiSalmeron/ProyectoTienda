@@ -1,6 +1,7 @@
 <template>
   <div id="aboutUs">
     <Header />
+    <!-- Jumbotron -->
     <div
       class="
         jumbotron jumbotron-fluid
@@ -14,6 +15,8 @@
       <img src="../assets/rafiki.png" width="250px" height="250px" alt="" />
       <img src="../assets/rafikify.png" width="250px" height="250px" alt="" />
     </div>
+    <!-- /Jumbotron -->
+    <!-- Contenedor principal -->
     <div class="text-aboutUs-container">
       <h3>¿Quiénes somos?</h3>
       <div class="text-aboutUs col-10 col-sm-9 col-md-6 col-lg-4 py-5">
@@ -28,51 +31,28 @@
         <a href="#/register">aquí</a>!.<br />
       </div>
     </div>
+    <!-- /Contenedor principal -->
     <Footer />
   </div>
 </template>
 
 <script>
+// Se importan las dependencias
 import Header from "./header.vue";
 import Footer from "./footer.vue";
 
-import { db } from "../db";
-
 export default {
   name: "AboutUs",
-
   components: {
     Header,
     Footer,
   },
   data() {
-    return {
-      productos: [],
-      user: {
-        loggedIn: false,
-        data: {},
-      },
-      email: "",
-    };
-  },
-  computed: {
-    authenticated() {
-      return this.user.loggedIn;
-    },
+    return {};
   },
   mounted: function () {
-    this.email = localStorage.getItem("userEmail");
-    if (this.email) {
-      this.user.loggedIn = true;
-    } else {
-      this.user.loggedIn = false;
-      this.user.data = {};
-    }
+    // Selecciono el item como activo
     document.querySelector("#nav-link-aboutUs").classList.add("active");
-  },
-
-  firestore: {
-    productos: db.collection("Productos"),
   },
 };
 </script>

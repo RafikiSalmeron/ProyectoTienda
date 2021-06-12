@@ -66,11 +66,6 @@
             >Productos</a
           >
         </li>
-        <li class="nav-item" @click="toContact()">
-          <a class="nav-link" id="nav-link-contact" aria-current="page"
-            >Contacto</a
-          >
-        </li>
         <li class="nav-item" @click="toAboutUs()">
           <a class="nav-link" id="nav-link-aboutUs" aria-current="page"
             >¿Quiénes somos?</a
@@ -110,9 +105,7 @@ export default {
             text: "Se ha cerrado sesión. ",
           });
           localStorage.setItem("userEmail", "");
-          if (this.$route.name != "home") {
-            this.$router.push({ name: "home" });
-          }
+          this.$router.push({ name: "login" });
         })
         .catch(function (error) {
           console.log(error);
@@ -159,11 +152,6 @@ export default {
     toProfile() {
       if (this.$route.name != "profile") {
         this.$router.push({ name: "profile" });
-      }
-    },
-    toContact() {
-      if (this.$route.name != "contact") {
-        this.$router.push({ name: "contact" });
       }
     },
     toAboutUs() {

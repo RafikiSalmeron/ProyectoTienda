@@ -12,14 +12,19 @@
     border-radius: 0;
 }
 
+// Le aplico posicionamiento al contenedor principal
 .text-aboutUs-container{
     @include flexColumn();
     justify-content: center;
     align-items: center;
+
+    // Le cambio el tamaño de la fuente y le aplico margen
     h3{
         @include mrgTB(2rem,0);
         font-size: size(lg);
     }
+
+    // Le cambio el tamaño y el tipo de fuente
     .text-aboutUs{
         font-family: Arial, sans-serif;
         font-size: size(xs);

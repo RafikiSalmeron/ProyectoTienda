@@ -15,12 +15,18 @@
             <strong>{{ producto.Nombre }}</strong>
           </p>
           <p>
+            <strong>Descripción</strong>
+          </p>
+          <p>
             {{ producto.descripcion }}
           </p>
         </div>
         <div class="text-container">
           <p>
             <strong>Stock: {{ producto.stock }}</strong>
+          </p>
+          <p>
+            <strong>Precio: {{ producto.Precio }} €</strong>
           </p>
         </div>
       </div>

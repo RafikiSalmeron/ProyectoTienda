@@ -7,6 +7,8 @@
     nav {
       @include flexRow();
       justify-content: center;
+      // Le aplico color de fondo  
+      background-color: color(fondoSecon);
       // Le aplico un tamaño fijo a la imagen
       img {
         width: 64px;

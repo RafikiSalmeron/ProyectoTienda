@@ -5,33 +5,42 @@
     <div id="divAñadir">
       <table class="añadir">
         <tr>
+          <td colspan="2">
+            <p style="display: none; color: red" id="adminError">Error</p>
+          </td>
+        </tr>
+        <tr>
           <td>ID:</td>
           <td><input v-model="adminID" disabled /></td>
         </tr>
 
         <tr>
-          <td>Nombre:</td>
-          <td><input v-model="adminNombre" type="text" /></td>
+          <td>Nombre*:</td>
+          <td><input v-model="adminNombre" id="inName" type="text" /></td>
         </tr>
 
         <tr>
           <td>Descripción:</td>
-          <td><input v-model="adminDescripcion" type="text" /></td>
+          <td><input v-model="adminDescripcion" id="inDes" type="text" /></td>
         </tr>
 
         <tr>
           <td>Imagen src:</td>
-          <td><input v-model="adminImg" type="text" /></td>
+          <td><input v-model="adminImg" id="inImg" type="text" /></td>
         </tr>
 
         <tr>
-          <td>Precio:</td>
-          <td><input v-model="adminPrecio" type="number" min="0" /></td>
+          <td>Precio*:</td>
+          <td>
+            <input v-model="adminPrecio" id="inPrecio" type="number" min="0" />
+          </td>
         </tr>
 
         <tr>
           <td>Stock:</td>
-          <td><input v-model="adminStock" type="number" min="0" /></td>
+          <td>
+            <input v-model="adminStock" type="number" id="inStock" min="0" />
+          </td>
         </tr>
       </table>
       <div class="novedad">
@@ -136,6 +145,39 @@ export default {
     };
   },
   methods: {
+    validate() {
+      if (this.adminNombre == "") {
+        document.getElementById("inName").style.borderColor = "red";
+        document.getElementById("adminError").style.display = "block";
+        document.getElementById("adminError").innerText =
+          "El nombre no puede estar vacío.";
+        return false;
+      }
+      if (this.adminPrecio <= 0) {
+        document.getElementById("inPrecio").style.borderColor = "red";
+        document.getElementById("adminError").style.display = "block";
+        document.getElementById("adminError").innerText =
+          "Tienes que asignarle un precio al producto.";
+        return false;
+      }
+
+      return true;
+    },
+    imageExists(image_url) {
+      if (image_url == "") {
+        return false;
+      }
+      var http = new XMLHttpRequest();
+
+      http.open("HEAD", image_url, false);
+      try {
+        http.send();
+      } catch (error) {
+        return false;
+      }
+
+      return http.status != 404;
+    },
     checkNovedad(action) {
       if (this.cbNovedad) {
         let count = 0;
@@ -156,6 +198,11 @@ export default {
       return true;
     },
     editarCampos(product) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       this.edit = true;
       this.adminID = product.id;
       this.adminNombre = product.Nombre;
@@ -194,6 +241,9 @@ export default {
           text: "No se pueden mostrar más de 3 productos como novedad.",
         });
         return;
+      }
+      if (!this.imageExists(this.adminImg)) {
+        this.adminImg = "https://i.imgur.com/1LH7119.png";
       }
       for (let itemCarro of this.carrito) {
         if (itemCarro.idProduct == this.adminID) {
@@ -278,6 +328,16 @@ export default {
       this.adminImg = "";
       this.adminStock = 0;
       this.cbNovedad = false;
+      this.borderBlack();
+      document.getElementById("adminError").style.display = "none";
+    },
+
+    borderBlack() {
+      document.getElementById("inPrecio").style.borderColor = "black";
+      document.getElementById("inName").style.borderColor = "black";
+      document.getElementById("inImg").style.borderColor = "black";
+      document.getElementById("inDes").style.borderColor = "black";
+      document.getElementById("inStock").style.borderColor = "black";
     },
     confirmarAdd() {
       this.$confirm({
@@ -301,6 +361,15 @@ export default {
       });
     },
     addProduct() {
+      this.borderBlack();
+      if (!this.validate()) {
+        this.$notify({
+          title: "Error al validar",
+          type: "error",
+          text: "Ha ocurrido un erro al validar las características del producto. Comprueba los campos",
+        });
+        return;
+      }
       if (!this.checkNovedad(false)) {
         this.$notify({
           title: "Error novedades",
@@ -308,6 +377,9 @@ export default {
           text: "No se pueden mostrar más de 3 productos como novedad.",
         });
         return;
+      }
+      if (!this.imageExists(this.adminImg)) {
+        this.adminImg = "https://i.imgur.com/1LH7119.png";
       }
       db.collection("Productos").add({
         Nombre: this.adminNombre,
