@@ -191,7 +191,7 @@ export default {
      *
      * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
      *
-     * @return True si está todo correcto, False si algún campo no es válido
+     * @return {Boolean} True si está todo correcto, False si algún campo no es válido
      */
     validate() {
       // Compruebo si el nombre esta vacío
@@ -224,7 +224,7 @@ export default {
      *
      * @param {String} image_url La URL de la imagen a mostrar
      *
-     * @return True si está todo correcto, False si la imagen no es válida
+     * @return {Boolean} True si está todo correcto, False si la imagen no es válida
      */
     imageExists(image_url) {
       // Compruebo si no he obtenido una ruta
@@ -252,7 +252,7 @@ export default {
      *
      * @param {Boolean} action True si estoy editando un producto y False si estoy añadiendo uno nuevo
      *
-     * @return True si el producto puede ser novedad y False si el producto no puede serlo (porque ya hay 3 marcados como novedad)
+     * @return {Boolean} True si el producto puede ser novedad y False si el producto no puede serlo (porque ya hay 3 marcados como novedad)
      */
     checkNovedad(action) {
       // Compruebo si está marcado el checkbox de novedad
@@ -549,7 +549,7 @@ export default {
       });
     },
     /**
-     * Función añade un producto
+     * Función que añade un producto
      *
      * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
      *

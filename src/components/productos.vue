@@ -40,7 +40,6 @@
           </router-link>
           <div>
             <p class="bold">{{ producto.Nombre }}</p>
-            <p class="descripcion">{{ producto.descripcion }}</p>
           </div>
         </div>
         <div class="btnContainer">
@@ -64,7 +63,7 @@
 </template>
 
 <script>
-import Firebase from "../db";
+// Se importan las dependencias
 import { db } from "../db";
 import CubeSpin from "../../node_modules/vue-loading-spinner/src/components/Circle";
 
@@ -96,30 +95,67 @@ export default {
       },
     },
   },
+  mounted: function () {
+    // Se obtiene el email
+    this.email = localStorage.getItem("userEmail");
+    // Compruebo si he obtenido un email
+    if (this.email) {
+      // Establezco el usuario a logeado
+      this.user.loggedIn = true;
+      // Compruebo si el usuario es el administrador
+      if (this.email == "admin@admin.com") {
+        // Establezco el usuario como administrador
+        this.admin = true;
+      }
+    } else {
+      // Establezco el usuario a no logeado
+      this.user.loggedIn = false;
+      this.user.data = {};
+      this.admin = false;
+    }
+  },
+  // Obtengo los datos de la base de datos
+  firestore: {
+    carrito: db.collection("Carrito"),
+  },
   computed: {
+    /**
+     * Función que realiza la búsqueda
+     *
+     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     *
+     * @return {Array} Array con los productos a mostrar
+     *
+     */
     productosFilter: function () {
       // Si el input de búsqueda está vacío devuelve el array de suplementos
       if (this.filterSearch == "") {
+        // Retorno todos los productos
         return this.productos;
         // Si no está vacío
       } else {
         // Devuelve el array aplicando el filtro
         var array = this.productos.filter((obj) => {
+          // Compruebo si el nombre a buscar equivale a un producto
           if (
             obj.Nombre.toLowerCase().indexOf(this.filterSearch.toLowerCase()) >=
             0
           ) {
+            // Retorno el producto para el array
             return true;
           } else {
+            // Retorno false
             return false;
           }
         });
-
+        // Compruebo el tamaño del array de productos a mostrar
         if (array.length == 0) {
-          // NMO HAY
+          // Si no hay llamo a la función que establece si existe o no
           this.setExist(false);
+          // Retorno el array vacío
           return array;
         } else {
+          // Si no hay llamo a la función que establece si existe o no
           this.setExist(true);
           return array;
         }
@@ -127,37 +163,59 @@ export default {
     },
   },
   methods: {
+    /**
+     * Función que limpia el filtro de búsqueda
+     *
+     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     *
+     *
+     */
     clearFilter() {
       this.filterSearch = "";
     },
+    /**
+     * Función que establece si el prodcto existe en la búsqueda
+     *
+     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     *
+     *
+     */
     setExist(exist) {
       this.exist = exist;
     },
-    stock(producto) {
-      if (producto.stock > 0) {
-        return false;
-      }
-      return true;
-    },
+    /**
+     * Función que añade un producto al carrito
+     *
+     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     *
+     * @param {Object} producto Producto que se añade al carrito
+     *
+     */
     addProduct(producto) {
+      // Compruebo si el usuario esta logeado
       if (this.user.loggedIn) {
-        console.log(this.carrito);
-        console.log(producto);
+        // Recorro el carrito del usuario
         for (var chart of this.carrito) {
+          // Compruebo si en el carrito hay ese producto ya
           if (chart.email == this.email && chart.idProduct == producto.id) {
-            console.log("HAY");
+            // Establezco la cesta al carrito recorrido
             this.cesta = chart;
+            // Establezco la variable a true pare indicar que ya está el producto
             this.hay = true;
           }
         }
+        // Compruebo si el producto ya está en el carrito
         if (this.hay) {
-          if (this.cesta.cantidad == producto.stock) {
+          // Compruebo si la cantidad ya es igual o mayor al stock del producto
+          if (this.cesta.cantidad >= producto.stock) {
+            // Muestro mensaje de error
             this.$notify({
               title: "Añadir al carrito",
               type: "error",
               text: "No hay más stock disponible. Ya tienes el máximo número de artículos posible en el carrito.",
             });
           } else {
+            // Actualizo el carrito sumando la cantidad y el precio total
             db.collection("Carrito")
               .doc(this.cesta.id)
               .update({
@@ -167,6 +225,7 @@ export default {
                   parseFloat(producto.Precio),
                 producto,
               });
+            // Muestro mensaje de información
             this.$notify({
               title: "Añadir al carrito",
               type: "success",
@@ -174,6 +233,7 @@ export default {
             });
           }
         } else {
+          // Añado el producto al carritop
           db.collection("Carrito").add({
             email: this.email,
             idProduct: producto.id,
@@ -181,14 +241,17 @@ export default {
             precioTotal: parseFloat(producto.Precio),
             producto,
           });
+          // Muestro mensaje de información
           this.$notify({
             title: "Añadir al carrito",
             type: "success",
             text: "Has añadido un producto al carrito.",
           });
         }
+        // Establezco la variable a false
         this.hay = false;
       } else {
+        // Muestro mensaje de error
         this.$notify({
           title: "Añadir al carrito",
           type: "error",
@@ -196,24 +259,6 @@ export default {
         });
       }
     },
-  },
-  firestore: {
-    carrito: db.collection("Carrito"),
-  },
-  mounted: function () {
-    this.email = localStorage.getItem("userEmail");
-    Firebase.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.user.loggedIn = true;
-        if (this.email == "admin@admin.com") {
-          this.admin = true;
-        }
-      } else {
-        this.user.loggedIn = false;
-        this.user.data = {};
-        this.admin = false;
-      }
-    });
   },
 };
 </script>

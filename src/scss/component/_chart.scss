@@ -12,25 +12,27 @@
     margin: 1rem;
   }
 
-  // Expando la tabla y le aplico márgenes laterales 
-  table {
-    width: 99%;
-    @include mrgRL(1rem);
-    // Le aplico estilo a los bordes de la tabla
-    tr {
+  .pedido-container {
+    @include flexRow();
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
       border-top: 1px solid rgba(148, 148, 148, 0.76);
-    }
+      padding: 1rem;
+      // Aplico tamaño a las diferentes partes del contenedor
+      .img-container {
+          // Aplico un tamaño fijo a la imagen
+          margin-bottom: 0.3rem;
+          img {
+              width: 10rem;
+              height: 10rem;
+            }
+        }
+        .desc-container {
+          width: 60%;
+        }
 
-    // Primera y ultima celda lateral, le aplico tamaño
-    .exTD {
-      width: 25%;
-      // Le aplico un tamaño específico máximo a la imagen del artículo
-      .img-article {
-        max-width: 200px;
-        max-height: 180px;
-        align-self: center;
-      }
-      // Centro el texto del input de cantidad
+         // Centro el texto del input de cantidad
       .step {
         text-align: center;
       }
@@ -40,47 +42,29 @@
         font-size: size(md);
       }
     }
+  // Aplico color, tipo de letra y margen al stock
+  .stock {
+    font-weight: bold;
+    color: color(verde);
+    margin-bottom: 1rem;
+  }
+  .noStock {
+    font-weight: bold;
+    color: color(rojo);
+    margin-bottom: 1rem;
+  }
 
-    // Celda central, le aplico tamaño y padding
-    .midTD {
-      width: 50%;
-      padding: 1rem;
-      // Información del producto (modelo, descripción, stock), le aplico tamaño,
-      // padding y el posicionamiento
-      .info {
-        height: 100%;
-        @include flexColumn();
-        align-content: flex-end;
-        padding-left: 5%;
-        padding-right: 5%;
-        // Aplico el tipo de letra a negrita
-        .producto {
-          font-weight: bold;
-        }
-        // Aplico márgenes laterales
-        .infoProduc {
-          @include mrgTB(3vh, 3vh);
-        }
-        // Aplico color, tipo de letra y margen al stock
-        .stock {
-          font-weight: bold;
-          color: color(verde);
-          margin-bottom: 1rem;
-        }
-
-        // Estilo del botón de eliminar artículo
-        .eliminar {
-          border-color: red;
-          border-radius: 9px;
-          // Estilo del botón de eliminar artículo cuando pasas por encima
-          &:hover {
-            background-color: #d9534f;
-            color: white;
-          }
-        }
-      }
+  // Estilo del botón de eliminar artículo
+  .eliminar {
+    border-color: red;
+    border-radius: 9px;
+    // Estilo del botón de eliminar artículo cuando pasas por encima
+    &:hover {
+      background-color: #d9534f;
+      color: white;
     }
   }
+
 
   // Div que almacena el precio total y el botón de realizar pedido
   // Le aplico posicionamiento

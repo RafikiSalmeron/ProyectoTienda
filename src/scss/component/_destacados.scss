@@ -10,13 +10,13 @@ h2 {
     font-family: 'Akaya Telivigala', sans-serif;
     font-size: size(xl)
   }
-  // Aplico posicionamiento al contenedor de las novedades
-  .noved-container {
+  // Aplico posicionamiento al contenedor de los productos destacados
+  .dest-container {
     @include flexRow();
     flex-wrap: wrap;
     justify-content: space-around;
-    // Aplico estilo a cada tarjeta de novedad
-    .noved-card {
+    // Aplico estilo a cada tarjeta de producto destacado
+    .dest-card {
       border: 1px solid color(primary);
       width: 400px;
       margin: 2rem;

@@ -1,10 +1,10 @@
 <template>
-  <div id="noved-main-container">
+  <div id="dest-main-container">
     <h2>Productos destacados</h2>
     <cube-spin v-if="destacados.length == 0"></cube-spin>
-    <div class="noved-container">
+    <div class="dest-container">
       <div
-        class="noved-card"
+        class="dest-card"
         v-for="producto in destacados"
         v-bind:key="producto.id"
         v-cloak
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Firebase from "../db";
+// Se importan las dependencias
 import { db } from "../db";
 import CubeSpin from "../../node_modules/vue-loading-spinner/src/components/Circle";
 
@@ -40,76 +40,6 @@ export default {
   name: "Destacados",
   components: {
     CubeSpin,
-  },
-  props: {
-    destacados: {
-      type: Array,
-      default: function () {
-        return [];
-      },
-    },
-  },
-  methods: {
-    stock(producto) {
-      if (producto.stock > 0) {
-        return false;
-      }
-      return true;
-    },
-    addProduct(producto) {
-      if (this.user.loggedIn) {
-        for (var chart of this.carrito) {
-          if (chart.email == this.email && chart.idProduct == producto.id) {
-            this.cesta = chart;
-            this.hay = true;
-          }
-        }
-        if (this.hay) {
-          if (this.cesta.cantidad == producto.stock) {
-            this.$notify({
-              title: "Añadir al carrito",
-              type: "error",
-              text: "No hay más stock disponible. Ya tienes el máximo número de artículos posible en el carrito.",
-            });
-          } else {
-            db.collection("Carrito")
-              .doc(this.cesta.id)
-              .update({
-                cantidad: parseFloat(this.cesta.cantidad) + 1,
-                precioTotal:
-                  (parseFloat(this.cesta.cantidad) + 1) *
-                  parseFloat(producto.Precio),
-                producto,
-              });
-            this.$notify({
-              title: "Añadir al carrito",
-              type: "success",
-              text: "Has añadido un producto al carrito.",
-            });
-          }
-        } else {
-          db.collection("Carrito").add({
-            email: this.email,
-            idProduct: producto.id,
-            cantidad: 1,
-            precioTotal: parseFloat(producto.Precio),
-            producto,
-          });
-          this.$notify({
-            title: "Añadir al carrito",
-            type: "success",
-            text: "Has añadido un producto al carrito.",
-          });
-        }
-        this.hay = false;
-      } else {
-        this.$notify({
-          title: "Añadir al carrito",
-          type: "error",
-          text: "Tienes que iniciar sesión para añadir productos al carrito.",
-        });
-      }
-    },
   },
   data() {
     return {
@@ -124,23 +54,114 @@ export default {
       hay: false,
     };
   },
+  props: {
+    destacados: {
+      type: Array,
+      default: function () {
+        return [];
+      },
+    },
+  },
+  mounted: function () {
+    // Se obtiene el email
+    this.email = localStorage.getItem("userEmail");
+    // Compruebo si he obtenido un email
+    if (this.email) {
+      // Establezco el usuario a logeado
+      this.user.loggedIn = true;
+      // Compruebo si el usuario es el administrador
+      if (this.email == "admin@admin.com") {
+        // Establezco el usuario como administrador
+        this.admin = true;
+      }
+    } else {
+      // Establezco el usuario a no logeado
+      this.user.loggedIn = false;
+      this.user.data = {};
+      this.admin = false;
+    }
+  },
+  // Obtengo los datos de la base de datos
   firestore: {
     carrito: db.collection("Carrito"),
   },
-  mounted: function () {
-    this.email = localStorage.getItem("userEmail");
-    Firebase.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.user.loggedIn = true;
-        if (this.email == "admin@admin.com") {
-          this.admin = true;
+  methods: {
+    /**
+     * Función que añade un producto al carrito
+     *
+     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     *
+     * @param {Object} producto Producto que se añade al carrito
+     *
+     */
+    addProduct(producto) {
+      // Compruebo si el usuario esta logeado
+      if (this.user.loggedIn) {
+        // Recorro el carrito del usuario
+        for (var chart of this.carrito) {
+          // Compruebo si en el carrito hay ese producto ya
+          if (chart.email == this.email && chart.idProduct == producto.id) {
+            // Establezco la cesta al carrito recorrido
+            this.cesta = chart;
+            // Establezco la variable a true pare indicar que ya está el producto
+            this.hay = true;
+          }
         }
+        // Compruebo si el producto ya está en el carrito
+        if (this.hay) {
+          // Compruebo si la cantidad ya es igual o mayor al stock del producto
+          if (this.cesta.cantidad >= producto.stock) {
+            // Muestro mensaje de error
+            this.$notify({
+              title: "Añadir al carrito",
+              type: "error",
+              text: "No hay más stock disponible. Ya tienes el máximo número de artículos posible en el carrito.",
+            });
+          } else {
+            // Actualizo el carrito sumando la cantidad y el precio total
+            db.collection("Carrito")
+              .doc(this.cesta.id)
+              .update({
+                cantidad: parseFloat(this.cesta.cantidad) + 1,
+                precioTotal:
+                  (parseFloat(this.cesta.cantidad) + 1) *
+                  parseFloat(producto.Precio),
+                producto,
+              });
+            // Muestro mensaje de información
+            this.$notify({
+              title: "Añadir al carrito",
+              type: "success",
+              text: "Has añadido un producto al carrito.",
+            });
+          }
+        } else {
+          // Añado el producto al carritop
+          db.collection("Carrito").add({
+            email: this.email,
+            idProduct: producto.id,
+            cantidad: 1,
+            precioTotal: parseFloat(producto.Precio),
+            producto,
+          });
+          // Muestro mensaje de información
+          this.$notify({
+            title: "Añadir al carrito",
+            type: "success",
+            text: "Has añadido un producto al carrito.",
+          });
+        }
+        // Establezco la variable a false
+        this.hay = false;
       } else {
-        this.user.loggedIn = false;
-        this.user.data = {};
-        this.admin = false;
+        // Muestro mensaje de error
+        this.$notify({
+          title: "Añadir al carrito",
+          type: "error",
+          text: "Tienes que iniciar sesión para añadir productos al carrito.",
+        });
       }
-    });
+    },
   },
 };
 </script>

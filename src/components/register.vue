@@ -84,7 +84,7 @@ export default {
      *
      * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
      *
-     * @return True si está todo correcto, False si algún campo no es válido
+     * @return {Boolean} True si está todo correcto, False si algún campo no es válido
      */
     validate() {
       // Escondo el párrafo de error y le cambio el borde de color a los inputs de email y contraseña
