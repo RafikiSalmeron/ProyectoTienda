@@ -23,6 +23,16 @@ h3{
             width:100%; 
         }
     }
+    // Aplico margen y tamaño de fuente al label de novedad
+    .novedad{
+      @include mrgTB(1rem, 0);
+      font-size: size(xs);
+      // Aplico tamaño y margen al checkbox de novedad
+      input{
+        transform: scale(1.5);
+        margin-right: 1rem;
+      }
+    }
     // Aplico posicionamiento y tamaño a los botones
     .boton{
         display: flex;
@@ -50,7 +60,6 @@ h3{
     padding: 1rem;
     // Aplico tamaño a las diferentes partes del contenedor
     .img-container {
-        //width: 20%;
         // Aplico un tamaño fijo a la imagen
         img {
             width: 10rem;
@@ -60,9 +69,7 @@ h3{
       .desc-container {
         width: 60%;
       }
-      .text-container {
-        //width: 20%;
-      }
+    
     // Le aplico a los botones
     button{
         border-radius: 5px;

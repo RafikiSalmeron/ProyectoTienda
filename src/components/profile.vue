@@ -58,7 +58,7 @@
                 <strong>Cantidad: {{ pedido.cantidad }}</strong>
               </p>
               <p>
-                <strong>Precio Total: {{ pedido.precioTotal }}</strong>
+                <strong>Precio Total: {{ pedido.precioTotal }} €</strong>
               </p>
             </div>
           </div>

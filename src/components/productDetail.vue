@@ -36,8 +36,7 @@
       </div>
       <button
         class="btnAddChart"
-        v-if="!admin"
-        :disabled="stock(producto)"
+        v-if="!admin && producto.stock != 0"
         @click="addProduct(producto)"
       >
         Añadir al carrito

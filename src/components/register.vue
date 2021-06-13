@@ -48,6 +48,7 @@
 </template>
 
 <script>
+// Se importan las dependencias
 import firebase from "firebase/app";
 import Footer from "./footer.vue";
 
@@ -72,7 +73,7 @@ export default {
         type: "warn",
         text: "¡Tienes la sesión iniciada!",
       });
-      // Redirijo al home
+      // Redirijo al inicio
       this.$router.push({ name: "home" });
     }
   },
@@ -154,12 +155,12 @@ export default {
               title: "Usuario registrado",
               text: "Se ha registrado el usuario correctamente.",
             });
-            // Redirijo al home
+            // Redirijo al login
             this.$router.push({ name: "login" });
           })
           // Compruebo si ha ocurrido algún error
           .catch(() => {
-            // Muestro mensaje de información
+            // Muestro mensaje de error
             this.$notify({
               title: "Inicio de Sesión",
               type: "error",
@@ -170,7 +171,7 @@ export default {
       } else {
         // Muestro el párrafo de error
         document.getElementById("pError").style.display = "block";
-        // Muestro mensaje de información
+        // Muestro mensaje de error
         this.$notify({
           title: "Error de validacón",
           type: "error",

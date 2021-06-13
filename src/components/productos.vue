@@ -12,6 +12,13 @@
           aria-describedby="helpId"
           placeholder="Buscar..."
         />
+        <button
+          @click="clearFilter()"
+          type="button"
+          class="clearFilter btn btn-dark"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
     <h3 v-if="productosFilter == 0 && !exist">
@@ -27,18 +34,25 @@
         v-bind:key="producto.id"
         v-cloak
       >
-        <router-link v-bind:to="`/productDetail/${producto.id}`">
-          <img :src="producto.img" alt="Producto Novedad" />
-        </router-link>
-        <p class="bold">{{ producto.Nombre }}</p>
-        <p class="descripcion">{{ producto.descripcion }}</p>
-        <p class="bold precio">{{ producto.Precio }} €</p>
-        <p class="stock">Stock : {{ producto.stock }}</p>
+        <div>
+          <router-link v-bind:to="`/productDetail/${producto.id}`">
+            <img :src="producto.img" alt="Producto Novedad" />
+          </router-link>
+          <div>
+            <p class="bold">{{ producto.Nombre }}</p>
+            <p class="descripcion">{{ producto.descripcion }}</p>
+          </div>
+        </div>
         <div class="btnContainer">
+          <p class="bold precio">{{ producto.Precio }} €</p>
+          <p v-if="producto.stock == 0" class="stock">
+            ¡No hay stock disponible!
+            <i class="fa fa-frown-o" aria-hidden="true"></i>
+          </p>
+          <p v-else class="stock">Stock : {{ producto.stock }}</p>
           <button
             class="btnAddChart"
-            v-if="!admin"
-            :disabled="stock(producto)"
+            v-if="!admin && producto.stock != 0"
             @click="addProduct(producto)"
           >
             Añadir al carrito
@@ -113,6 +127,9 @@ export default {
     },
   },
   methods: {
+    clearFilter() {
+      this.filterSearch = "";
+    },
     setExist(exist) {
       this.exist = exist;
     },

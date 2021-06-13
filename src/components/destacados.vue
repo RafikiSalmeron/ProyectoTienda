@@ -14,11 +14,14 @@
         </router-link>
         <p class="bold">{{ producto.Nombre }}</p>
         <p class="precio bold">{{ producto.Precio }} €</p>
-        <p class="stock">Stock : {{ producto.stock }}</p>
+        <p v-if="producto.stock == 0" class="stock">
+          ¡No hay stock disponible!
+          <i class="fa fa-frown-o" aria-hidden="true"></i>
+        </p>
+        <p v-else class="stock">Stock : {{ producto.stock }}</p>
         <button
           class="btnAddChart"
-          v-if="!admin"
-          :disabled="stock(producto)"
+          v-if="!admin && producto.stock != 0"
           @click="addProduct(producto)"
         >
           Añadir al carrito

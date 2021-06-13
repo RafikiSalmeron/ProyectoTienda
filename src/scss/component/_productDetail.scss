@@ -24,6 +24,7 @@
     .descText-container{
       font-family: 'Quicksand', sans-serif;
       @include flexColumn();
+      margin-left: 1rem;
       align-items: center;
       width: 60%;
       .desc-container{
