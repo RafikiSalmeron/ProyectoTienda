@@ -12,9 +12,13 @@
         <div class="pedido-container">
           <div class="img-container">
             <p style="font-size: 1.2rem"><strong>Artículo</strong></p>
-            <img :src="chart.producto.img" class="img-article" alt="Producto" />
+            <img
+              :src="chart.producto.img"
+              class="img-article"
+              :title="chart.producto.Nombre"
+              :alt="chart.producto.Nombre"
+            />
           </div>
-
           <div class="desc-container">
             <p>
               <strong>{{ chart.producto.Nombre }}</strong>
@@ -61,12 +65,10 @@
         </div>
         <hr />
       </div>
-
       <div id="botonCesta">
         <div id="subtotal">
           Subtotal({{ cantidad }} producto/s): {{ total }}
         </div>
-
         <div id="realizar">
           <button class="btnRealizar" @click="realizarPedido()">
             Realizar pedido
@@ -138,7 +140,7 @@ export default {
     /**
      * Función que devuelve el precio total del carrito
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @return {String} Precio total del carrito
      */
@@ -156,7 +158,7 @@ export default {
     /**
      * Función que devuelve la cantidad total de productos en el carrito
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @return {Number} Cantidad total de productos en el carrito
      */
@@ -176,10 +178,22 @@ export default {
     /**
      * Función que realiza el pedido
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     realizarPedido() {
+      // Compruebo que el carrito no esté vacío
+      if (this.carrito.length == 0) {
+        // Muestro mensaje de error
+        this.$notify({
+          title: "Error al realizar pedido",
+          type: "error",
+          duration: 6000,
+          text: "No se ha podido realizar el pedido debido a que no hay nada en el carrito.",
+        });
+        // Corto la ejecución
+        return;
+      }
       // Recorro los productos del carrito
       for (var item of this.carrito) {
         // Compruebo si el stock o la cantidad es menor o igual a 0
@@ -270,7 +284,7 @@ export default {
     /**
      * Función que elimina un producto del carrito
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {String} id Identificador del producto a eliminar del carrito
      *
@@ -282,7 +296,7 @@ export default {
     /**
      * Función que cambia la cantidad de un producto en el carrito
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Event} e Evento al cambiar las unidades
      *

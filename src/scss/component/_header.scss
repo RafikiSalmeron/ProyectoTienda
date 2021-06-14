@@ -14,12 +14,12 @@ nav {
       transform: scale(1.05);
     }
   }
-
+  // Aplico posicionamiento al div que contiene el carrito y el perfil
   .carroPerfil {
     @include flexRow();
     justify-content: center;
     margin: 1rem;
-    
+    // Le quito el margen en pantallas grandes
     @include response(lg) {
       margin: 0;
     }
@@ -44,9 +44,11 @@ nav {
     }
   }
 }
+// Le aplico estilo y relleno a la parte baja del header
 .botHeader {
   padding: 1rem;
   background-color: color(fondo); 
+  // Le aplico estilo a los nav-link que no están activos
   .nav-link:not(.active) {
     cursor: pointer;
     color:white;

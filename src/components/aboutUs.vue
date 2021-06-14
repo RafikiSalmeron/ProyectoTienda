@@ -12,8 +12,20 @@
       "
       style="background-repeat: no-repeat"
     >
-      <img src="../assets/rafiki.png" width="250px" height="250px" alt="" />
-      <img src="../assets/rafikify.png" width="250px" height="250px" alt="" />
+      <img
+        src="../assets/rafiki.png"
+        width="250px"
+        height="250px"
+        title="Logo de mono"
+        alt="Logo de mono"
+      />
+      <img
+        src="../assets/rafikify.png"
+        width="250px"
+        height="250px"
+        title="Rafikify"
+        alt="Rafikify"
+      />
     </div>
     <!-- /Jumbotron -->
     <!-- Contenedor principal -->
@@ -28,7 +40,7 @@
         vanguardistas.<br /><br />
 
         ¿No sabes cómo comprar? ¡Puedes empezar registrándote pulsando
-        <a href="#/register">aquí</a>!.<br />
+        <a href="#/register">aquí</a>!<br />
       </div>
     </div>
     <!-- /Contenedor principal -->

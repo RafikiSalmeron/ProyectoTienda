@@ -73,84 +73,13 @@
 </template>
 
 <script>
-import Firebase from "../db";
-import { db } from "../db";
+// Se importan las dependencias
 import CubeSpin from "../../node_modules/vue-loading-spinner/src/components/Circle";
 
 export default {
   name: "Novedades",
   components: {
     CubeSpin,
-  },
-  props: {
-    novedades: {
-      type: Array,
-      default: function () {
-        return [];
-      },
-    },
-  },
-  methods: {
-    stock(producto) {
-      if (producto.stock > 0) {
-        return false;
-      }
-      return true;
-    },
-    addProduct(producto) {
-      if (this.user.loggedIn) {
-        for (var chart of this.carrito) {
-          if (chart.email == this.email && chart.idProduct == producto.id) {
-            this.cesta = chart;
-            this.hay = true;
-          }
-        }
-        if (this.hay) {
-          if (this.cesta.cantidad == producto.stock) {
-            this.$notify({
-              title: "Añadir al carrito",
-              type: "error",
-              text: "No hay más stock disponible. Ya tienes el máximo número de artículos posible en el carrito.",
-            });
-          } else {
-            db.collection("Carrito")
-              .doc(this.cesta.id)
-              .update({
-                cantidad: parseFloat(this.cesta.cantidad) + 1,
-                precioTotal:
-                  (parseFloat(this.cesta.cantidad) + 1) *
-                  parseFloat(producto.Precio),
-                producto,
-              });
-            this.$notify({
-              title: "Añadir al carrito",
-              type: "success",
-              text: "Has añadido un producto al carrito.",
-            });
-          }
-        } else {
-          db.collection("Carrito").add({
-            email: this.email,
-            idProduct: producto.id,
-            cantidad: 1,
-            precioTotal: parseFloat(producto.Precio),
-            producto,
-          });
-          this.$notify({
-            title: "Añadir al carrito",
-            type: "success",
-            text: "Has añadido un producto al carrito.",
-          });
-        }
-        this.hay = false;
-      } else {
-        this.$notify({
-          title: "Añadir al carrito",
-          type: "error",
-          text: "Tienes que iniciar sesión para añadir productos al carrito.",
-        });
-      }
-    },
   },
   data() {
     return {
@@ -160,28 +89,17 @@ export default {
       },
       email: "",
       admin: false,
-      carrito: [],
       cesta: null,
       hay: false,
     };
   },
-  firestore: {
-    carrito: db.collection("Carrito"),
-  },
-  mounted: function () {
-    this.email = localStorage.getItem("userEmail");
-    Firebase.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.user.loggedIn = true;
-        if (this.email == "admin@admin.com") {
-          this.admin = true;
-        }
-      } else {
-        this.user.loggedIn = false;
-        this.user.data = {};
-        this.admin = false;
-      }
-    });
+  props: {
+    novedades: {
+      type: Array,
+      default: function () {
+        return [];
+      },
+    },
   },
 };
 </script>

@@ -1,28 +1,35 @@
 @import "../abstract/_mixins.scss";
 @import "../abstract/_variables.scss";
+
+// Le aplico tamaño mínimo al contenedor de los pedidos
 .div-container-pedido{
   min-height: 50vh;
+  // Le aplico posicionamiento al contenedor del pedido
   .pedidos-product{
     @include flexColumn();
     justify-content: center;
     align-items: center;
-
+    // Le aplico estilo y posicionamiento al contenedor principal del pedido sin desplegar
     .visual-container-main{
       @include flexColumn();
-      background-color: rgba(color(fondoSecon), 0.4);
+      background-color: color(fondo);
+      color: color(secondary);
+      border-radius: 1rem;
       border: 1px solid color(fondoSecon);
       justify-content: center;
       padding: 1rem;
       width: 85%;
       margin: 1rem;
-
+      // Le aplico posicionamiento a la parte interna del contenedor principal del pedido sin desplegar
       .visual-container{
         @include flexRow();
         align-items: center;
         flex-wrap: wrap;
         justify-content: space-around;
+        // Le aplico un relleno a la flechita
         i{
           padding: 0.5rem;
+          // Hago la flechita más grande al pasar el botón por encima
           &:hover {
             transform: scale(1.4);
             cursor: pointer;
@@ -30,7 +37,7 @@
         }
       } 
     }
-
+  // Le aplico posicionamiento al div contenedor del pedido detallado
   .pedidosMostrar{
     display: none;
     flex-direction: column;
@@ -52,6 +59,7 @@
                 height: 10rem;
               }
           }
+          // Aplico un tamaño al div contenedor de la descripción
           .desc-container {
             width: 60%;
           }
@@ -62,7 +70,7 @@
             border-style: solid;
             margin: 5px;
             border-color: color(azulBtn);
-            // Le aplico estilo cuando pasas por encima
+            // Le aplico estilo cuando pasas el ratón por encima
             &:hover {
                 color: color(secondary);
                 background-color: color(azulBtn);

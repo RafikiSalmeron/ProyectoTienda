@@ -44,8 +44,6 @@ Vue.component(ProductsList)
 import ProductDetail from './components/productDetail.vue'
 Vue.component(ProductDetail)
 
-
-
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/login', name: 'login', component: Login },
@@ -61,8 +59,6 @@ const routes = [
 const router = new VueRouter({
   routes // short for `routes: routes`
 })
-
-
 
 new Vue({
   render: h => h(App),

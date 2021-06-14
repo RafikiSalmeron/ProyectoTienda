@@ -3,7 +3,7 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light">
       <router-link to="/">
-        <img src="../assets/rafiki.png" />
+        <img src="../assets/rafiki.png" alt="Logo" title="Logo" />
       </router-link>
     </nav>
     <!-- /Header -->
@@ -82,7 +82,7 @@ export default {
     /**
      * Función que valida el email y la contraseña
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @return {Boolean} True si está todo correcto, False si algún campo no es válido
      */
@@ -132,7 +132,7 @@ export default {
     /**
      * Función que registra al usuario
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     register() {

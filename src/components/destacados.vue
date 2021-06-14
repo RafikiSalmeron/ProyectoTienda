@@ -10,7 +10,11 @@
         v-cloak
       >
         <router-link v-bind:to="`/productDetail/${producto.id}`">
-          <img :src="producto.img" alt="Producto Novedad" />
+          <img
+            :src="producto.img"
+            :title="producto.Nombre"
+            :alt="producto.Nombre"
+          />
         </router-link>
         <p class="bold">{{ producto.Nombre }}</p>
         <p class="precio bold">{{ producto.Precio }} €</p>
@@ -89,7 +93,7 @@ export default {
     /**
      * Función que añade un producto al carrito
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Object} producto Producto que se añade al carrito
      *
@@ -136,7 +140,7 @@ export default {
             });
           }
         } else {
-          // Añado el producto al carritop
+          // Añado el producto al carrito
           db.collection("Carrito").add({
             email: this.email,
             idProduct: producto.id,

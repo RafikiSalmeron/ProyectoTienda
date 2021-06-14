@@ -11,8 +11,20 @@
       "
       style="background-repeat: no-repeat"
     >
-      <img src="../assets/rafiki.png" width="250px" height="250px" alt="" />
-      <img src="../assets/rafikify.png" width="250px" height="250px" alt="" />
+      <img
+        src="../assets/rafiki.png"
+        width="250px"
+        height="250px"
+        title="Logo de mono"
+        alt="Logo de mono"
+      />
+      <img
+        src="../assets/rafikify.png"
+        width="250px"
+        height="250px"
+        title="Logo de mono"
+        alt="Logo de mono"
+      />
     </div>
     <Novedades :novedades="novedad" />
     <Destacados :destacados="prodDestacados" />
@@ -21,6 +33,7 @@
 </template>
 
 <script>
+// Se importan las dependencias
 import Destacados from "./destacados.vue";
 import Novedades from "./novedades.vue";
 import Header from "./header.vue";
@@ -49,31 +62,46 @@ export default {
     };
   },
   computed: {
+    /**
+     * Función que devuelve un array con los productos que son novedad
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     * @return {Array} Array con los productos que son novedad
+     *
+     */
     novedad: function () {
+      // Creo un array vacío para las novedades
       var novArray = [];
+      // Recorro todos los productos
       for (var prod of this.productos) {
+        // Compruebo si el producto es novedad
         if (prod.novedad) {
+          // Añado el producto al array
           novArray.push(prod);
         }
       }
+      // Retorno el array con las novedades
       return novArray;
-    },
-    authenticated() {
-      return this.user.loggedIn;
     },
   },
   mounted: function () {
+    // Se obtiene el email
     this.email = localStorage.getItem("userEmail");
+    // Compruebo si he obtenido un email
     if (this.email) {
+      // Establezco el usuario a logeado
       this.user.loggedIn = true;
-      console.log(this.user.loggedIn);
     } else {
+      // Establezco el usuario a no logeado
       this.user.loggedIn = false;
       this.user.data = {};
-      console.log(this.user.loggedIn);
     }
+
+    // Selecciono el item como activo
     document.querySelector("#nav-link-home").classList.add("active");
   },
+  // Obtengo los datos de la base de datos
   firestore: {
     productos: db.collection("Productos"),
     prodDestacados: db

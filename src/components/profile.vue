@@ -1,7 +1,7 @@
 <template>
   <div id="profile">
     <Header />
-    <h3 class="py-5 m-0" style="background-color: rgb(240, 240, 240)">
+    <h3 class="py-5 m-0" style="color: black">
       <i class="fa fa-bookmark" aria-hidden="true"></i> Historial de compras de
       {{ getnombre }}
     </h3>
@@ -42,7 +42,11 @@
             v-bind:key="pedido.id"
           >
             <div class="img-container">
-              <img :src="pedido.producto.img" alt="Producto" />
+              <img
+                :src="pedido.producto.img"
+                :title="pedido.producto.Nombre"
+                :alt="pedido.producto.Nombre"
+              />
             </div>
 
             <div class="desc-container">
@@ -100,23 +104,63 @@ export default {
       exist: true,
       admin: false,
       chartData: [],
+      // Estilo y opciones de la gráfica
       chartOptions: {
         title: "Gráfica de ventas",
         chartArea: {
           width: 500,
         },
         pieSliceText: "none",
-        backgroundColor: {
-          fill: "#e6e4e4",
-        },
         is3D: true,
       },
     };
   },
+  mounted: function () {
+    // Se obtiene el email
+    this.email = localStorage.getItem("userEmail");
+    // Compruebo si he obtenido un email
+    if (this.email) {
+      // Establezco el usuario en logeado
+      this.user.loggedIn = true;
+      // Establezco la variable encargada del loader a true
+      this.exist = true;
+      // Obtengo los pedidos
+      this.getPedidos();
+    } else {
+      // Establezco el usuario en logeado
+      this.user.loggedIn = false;
+      // Borro los datos del usuario
+      this.user.data = {};
+      // Muestro mensaje de error
+      this.$notify({
+        title: "Inicio de Sesión",
+        type: "error",
+        text: "Tienes que iniciar sesión para acceder a tu perfil.",
+      });
+      // Vacío el carrito de los pedidos
+      this.$bind("pedidos", db.collection("Pedidos").where("email", "==", ""));
+      // Redirijo al inicio
+      this.$router.push({ name: "home" });
+    }
+  },
+  // Obtengo los datos de la base de datos
+  firestore: {
+    pedidos: db
+      .collection("Pedidos")
+      .where("email", "==", Firebase.auth.currentUser ? this.email : ""),
+    prodDestacados: db
+      .collection("Productos")
+      .orderBy("vecesVendido", "desc")
+      .limit(7),
+  },
   computed: {
-    authenticated() {
-      return this.user.loggedIn;
-    },
+    /**
+     * Función que devuelve el nombre de usuario quitando la parte del dominio del email
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     * @return {String} Nombre del usuario
+     */
     getnombre() {
       // Convierte el correro del usuario en string
       const usuario = this.email.toString();
@@ -127,11 +171,19 @@ export default {
       // Retornamos ese valor como nombre
       return nombre;
     },
+    /**
+     * Función que devuelve el array encargado de mostrar los valores en la gráfica
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     * @return {Array} Array con los valores que se mostrarán en la gráfica
+     */
     implementarGrafica: function () {
+      // Array iniciado con las columnas principales
       let valores = [
         ["Producto", "Veces vendido", { type: "string", role: "tooltip" }],
       ];
-
+      // Recorro los productos destacados
       for (let item of this.prodDestacados) {
         valores.push([
           item.Nombre,
@@ -139,69 +191,68 @@ export default {
           item.vecesVendido + " veces vendido",
         ]);
       }
+      // Retorno los valores en forma de Array
       return valores;
     },
   },
-  mounted: function () {
-    this.email = localStorage.getItem("userEmail");
-    if (this.email) {
-      this.user.loggedIn = true;
-      console.log(this.user.loggedIn);
-      this.exist = true;
-      this.getPedidos();
-    } else {
-      this.user.loggedIn = false;
-      this.user.data = {};
-      this.$notify({
-        title: "Inicio de Sesión",
-        type: "error",
-        text: "Tienes que iniciar sesión para acceder a tu perfil.",
-      });
-      this.$bind("pedidos", db.collection("Pedidos").where("email", "==", ""));
-      this.$router.push({ name: "home" });
-    }
-  },
   methods: {
-    getPedidos: function () {
+    /**
+     * Función que obtiene los pedidos realizados
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
+    getPedidos() {
+      // Compruebo si el usuario logeado es el administrador
       if (this.email == "admin@admin.com") {
+        // Establezco el usuario como administrador
         this.admin = true;
+        // Linkeo el array pedidos con la colección de pedidos
         this.$bind("pedidos", db.collection("Pedidos"));
       } else {
+        // Linkeo el array pedidos con la colección de pedidos del usuario logeado
         this.$bind(
           "pedidos",
           db.collection("Pedidos").where("email", "==", this.email)
         );
       }
+      // Espero a que carguen los pedidos
       setTimeout(() => {
+        // Compruebo si hay pedidos
         if (this.pedidos.length == 0) {
+          // Establezco la variable encargada del loader en falso
           this.exist = false;
         }
       }, 1000);
     },
+    /**
+     * Función que despliega un pedido seleccionado
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     * @param {String} idDiv La ID del elemento <div>
+     *
+     */
     displayPedido(idDiv) {
+      // Obtengo el div en el que se ha clickado
       var div = document.getElementById(idDiv);
-      console.log(div.style.display);
+      // Compruebo si el div está ya desplegado
       if (div.style.display == "none" || div.style.display == "") {
+        // Le cambio el icono de la flecha al div
         document
           .getElementById("flecha" + idDiv)
           .classList.replace("fa-arrow-down", "fa-arrow-up");
+        // Despliego el div
         div.style.display = "flex";
       } else {
+        // Escondo el div
         div.style.display = "none";
+        // Le cambio el icono de la flecha al div
         document
           .getElementById("flecha" + idDiv)
           .classList.replace("fa-arrow-up", "fa-arrow-down");
       }
     },
-  },
-  firestore: {
-    pedidos: db
-      .collection("Pedidos")
-      .where("email", "==", Firebase.auth.currentUser ? this.email : ""),
-    prodDestacados: db
-      .collection("Productos")
-      .orderBy("vecesVendido", "desc")
-      .limit(7),
   },
 };
 </script>

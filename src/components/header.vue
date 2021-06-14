@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
       <vue-confirm-dialog></vue-confirm-dialog>
       <router-link to="/">
-        <img src="../assets/rafiki.png" />
+        <img src="../assets/rafiki.png" alt="Logo" title="Logo" />
       </router-link>
       <button
         class="navbar-toggler navbar-dark"
@@ -93,25 +93,84 @@ export default {
       admin: false,
     };
   },
+  created: function () {
+    // Se obtiene el email
+    this.email = localStorage.getItem("userEmail");
+    /**
+     *
+     * Listener de Firebase que comprueba si hay sesión iniciada y cuándo se cierra
+     *
+     */
+    Firebase.auth.onAuthStateChanged((user) => {
+      // Compruebo si hay un usuario logeado
+      if (user) {
+        // Establezco el usuario a logeado
+        this.user.loggedIn = true;
+        // Establezco el email del usuario en el Local Storage
+        localStorage.setItem("userEmail", user.email);
+        // Establezco el email del usuario
+        this.email = user.email;
+        // Compruebo si el email logeado es el admin
+        if (this.email == "admin@admin.com") {
+          // Establezco el usuario como admin
+          this.admin = true;
+        }
+      } else {
+        // Establezco el usuario como no logeado
+        this.user.loggedIn = false;
+        // Elimino al usuario del Local Storage
+        localStorage.setItem("userEmail", "");
+        // Elimino la información del usuario
+        this.user.data = {};
+        this.admin = false;
+      }
+    });
+  },
   methods: {
+    /**
+     * Función que cierra la sesión del usuario
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     logout() {
+      /**
+       *
+       * Función que cierra la sesión del usuario nativa de firebase
+       *
+       */
       firebase
         .auth()
         .signOut()
         .then(() => {
+          // Muestro mensaje de información
           this.$notify({
-            title: "Inicio de Sesión",
+            title: "Inicio de sesión",
             type: "error",
             text: "Se ha cerrado sesión. ",
           });
+          // Elimino al usuario del Local Storage
           localStorage.setItem("userEmail", "");
+          // Redirijo al login
           this.$router.push({ name: "login" });
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
+          // Muestro mensaje de información
+          this.$notify({
+            title: "Cerrar sesión",
+            type: "error",
+            text: "Ha ocurrido un error al cerrar sesión. ",
+          });
         });
     },
+    /**
+     * Función que muestra un dialog para acceder al historial de pedidos o administración de productos (administrador)
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     administrador() {
+      // Muestro el dialog
       this.$confirm({
         message: `¿Dónde deseas acceder?`,
         button: {
@@ -120,77 +179,108 @@ export default {
         },
         /**
          * Callback Function
-         * @param {Boolean} confirm
+         * @param {Boolean} confirm Resultado del dialog
          */
         callback: (confirm) => {
-          console.log(confirm);
+          // Compruebo el resultado
           if (confirm) {
+            // Compruebo si no estoy ya en el historial de pedidos (perfil)
             if (this.$route.name != "profile") {
+              // Redirijo al historial de pedidos (perfil)
               this.$router.push({ name: "profile" });
             }
           } else {
+            // Compruebo si no estoy ya en la administración de productos
             if (this.$route.name != "admin") {
+              // Redirijo a la administración de productos
               this.$router.push({ name: "admin" });
             }
           }
         },
       });
     },
+    /**
+     * Función que redirige al login
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     userProfile() {
+      // Redirijo al login
       this.$router.push({ name: "login" });
     },
+    /**
+     * Función que redirige al inicio
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     toHome() {
+      // Compruebo si no estoy en el inicio
       if (this.$route.name != "home") {
+        // Redirijo al inicio
         this.$router.push({ name: "home" });
       }
     },
+    /**
+     * Función que redirige a la lista de productos
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     toProducts() {
+      // Compruebo que no estoy en la lista de productos
       if (this.$route.name != "productList") {
+        // Redirijo a la lista de productos
         this.$router.push({ name: "productList" });
       }
     },
+    /**
+     * Función que redirige al perfil
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     toProfile() {
+      // Compruebo que no estoy en el perfil
       if (this.$route.name != "profile") {
+        // Redirijo al perfil
         this.$router.push({ name: "profile" });
       }
     },
+    /**
+     * Función que redirige al "¿Quiénes somos?"
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     toAboutUs() {
+      // Compruebo que no estoy en el "¿Quiénes somos?"
       if (this.$route.name != "aboutUs") {
+        // Redirijo al "¿Quiénes somos?"
         this.$router.push({ name: "aboutUs" });
       }
     },
+    /**
+     * Función que redirige al carrito
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
     cestita() {
+      // Compruebo si el usuario esta logeado
       if (this.user.loggedIn == false) {
+        // Muestro mensaje de error
         this.$notify({
           title: "Inicio de Sesión",
           type: "error",
           text: "Tienes que iniciar sesión para acceder al carrito.",
         });
       } else {
+        // Redirijo al carrito
         this.$router.push({ name: "chart" });
       }
     },
-  },
-  created: function () {
-    this.email = localStorage.getItem("userEmail");
-    console.log(this.$route.name);
-    Firebase.auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("HEADER");
-        console.log(user);
-        this.user.loggedIn = true;
-        localStorage.setItem("userEmail", user.email);
-        this.email = user.email;
-        if (this.email == "admin@admin.com") {
-          this.admin = true;
-        }
-      } else {
-        this.user.loggedIn = false;
-        localStorage.setItem("userEmail", "");
-        this.user.data = {};
-        this.admin = false;
-      }
-    });
   },
 };
 </script>

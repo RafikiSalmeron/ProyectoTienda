@@ -3,6 +3,8 @@
 // Importo las fuentes
 @import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+// Le aplico estilo a la barra de búsqueda
 #searcher{
   @include mrgTB(2rem,0);
   .clearFilter{

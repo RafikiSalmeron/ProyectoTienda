@@ -36,7 +36,11 @@
       >
         <div>
           <router-link v-bind:to="`/productDetail/${producto.id}`">
-            <img :src="producto.img" alt="Producto Novedad" />
+            <img
+              :src="producto.img"
+              :title="producto.Nombre"
+              :alt="producto.Nombre"
+            />
           </router-link>
           <div>
             <p class="bold">{{ producto.Nombre }}</p>
@@ -122,7 +126,7 @@ export default {
     /**
      * Función que realiza la búsqueda
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @return {Array} Array con los productos a mostrar
      *
@@ -166,7 +170,7 @@ export default {
     /**
      * Función que limpia el filtro de búsqueda
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      *
      */
@@ -176,7 +180,7 @@ export default {
     /**
      * Función que establece si el prodcto existe en la búsqueda
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      *
      */
@@ -186,7 +190,7 @@ export default {
     /**
      * Función que añade un producto al carrito
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Object} producto Producto que se añade al carrito
      *

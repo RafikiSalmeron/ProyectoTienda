@@ -95,7 +95,11 @@
         v-bind:key="producto.id"
       >
         <div class="img-container">
-          <img :src="producto.img" alt="Producto" />
+          <img
+            :src="producto.img"
+            :title="producto.Nombre"
+            :alt="producto.Nombre"
+          />
         </div>
 
         <div class="desc-container">
@@ -189,7 +193,7 @@ export default {
     /**
      * Función que valida el nombre y el precio
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @return {Boolean} True si está todo correcto, False si algún campo no es válido
      */
@@ -220,7 +224,7 @@ export default {
     /**
      * Función que valida la imagen
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {String} image_url La URL de la imagen a mostrar
      *
@@ -248,7 +252,7 @@ export default {
     /**
      * Función que devuelve si un producto puede ser novedad o no
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Boolean} action True si estoy editando un producto y False si estoy añadiendo uno nuevo
      *
@@ -289,7 +293,7 @@ export default {
     /**
      * Función que coloca en los inputs los valores del producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Object} product El producto a editar
      *
@@ -314,7 +318,7 @@ export default {
     /**
      * Función que muestra un dialog para confirmar si quiero editar el producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     confirmarEdit() {
@@ -344,7 +348,7 @@ export default {
     /**
      * Función que edita el producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     editarProducto() {
@@ -424,7 +428,7 @@ export default {
     /**
      * Función que muestra un dialog para confirmar si quiero eliminar el producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Object} product El producto a eliminar
      *
@@ -456,7 +460,7 @@ export default {
     /**
      * Función que elimina el producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      * @param {Object} product El producto a eliminar
      *
@@ -486,7 +490,7 @@ export default {
     /**
      * Función que limpia todos los inputs y mensajes de error
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     cancelarEdit() {
@@ -507,7 +511,7 @@ export default {
     /**
      * Función que establece los bordes negros a los inputs
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     borderBlack() {
@@ -521,7 +525,7 @@ export default {
     /**
      * Función que muestra un dialog para confirmar si quiero añadir un producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     confirmarAdd() {
@@ -551,7 +555,7 @@ export default {
     /**
      * Función que añade un producto
      *
-     * @author Rafa Salmeron <rafikisalmeronmartos@gmail.com>
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
      *
      */
     addProduct() {

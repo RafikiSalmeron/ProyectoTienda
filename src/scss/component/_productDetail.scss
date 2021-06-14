@@ -2,10 +2,11 @@
 @import "../abstract/_variables.scss";
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
-.div-container-pedido{
+// Aplico tamaño mínimo al contenedor principal
+.div-container-producto{
   min-height: 65vh;
-// Aplico posicionamiento al div contenedor de productos
-.pedido-product {
+// Aplico posicionamiento al div contenedor del producto
+.detalle-product {
     @include flexRow();
     margin-top: 1rem;;
     align-items: center;
@@ -21,34 +22,41 @@
           height: 25rem;
         }
     }
+    // Aplico posicionamiento y tipo de fuente al texto de detalle
     .descText-container{
       font-family: 'Quicksand', sans-serif;
       @include flexColumn();
       margin-left: 1rem;
       align-items: center;
       width: 60%;
+      // Aplico tamaño al div contenedor del nombre y descripción del producto
       .desc-container{
         width: 100%;
+        // Aplico un tamaño de fuente al nombre
         .pNombre{
           font-size: size(md);
         }
+        // Aplico un tamaño de fuente al párrafo superior de descripción y le aplico márgenes laterales
         .pDescripcion{
           font-size: size(sm);
           @include mrgTB(2rem,1rem)
         }
+        // Aplico un tamaño de fuente a la descripción
         .descripcion{
           font-size: 1.2rem;
         }
       }
+      // Aplico un tamaño al contenedor del stock y del precio
       .text-container{
         width: 100%;
+        // Aplico tamaño de fuente al precio
         .precio{
           font-size: size(md);
         }
       }
     }
-    // Le aplico a los botones
   }
+  // Le aplico al botón de agregar al carrito estilo
   .btnAddChart {
     font-size: size(md);
     background-color: color(fondo);

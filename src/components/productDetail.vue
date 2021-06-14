@@ -4,10 +4,14 @@
     <div v-if="loading">
       <cube-spin></cube-spin>
     </div>
-    <div v-else class="div-container-pedido">
-      <div class="pedido-product">
+    <div v-else class="div-container-producto">
+      <div class="detalle-product">
         <div class="img-container">
-          <img :src="producto.img" alt="Producto" />
+          <img
+            :src="producto.img"
+            :title="producto.Nombre"
+            :alt="producto.Nombre"
+          />
         </div>
         <div class="descText-container">
           <div class="desc-container">
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+// Se importan las dependencias
 import Header from "./header.vue";
 import Footer from "./footer.vue";
 import CubeSpin from "../../node_modules/vue-loading-spinner/src/components/Circle";
@@ -55,7 +60,6 @@ import { db } from "../db";
 
 export default {
   name: "ProductDetail",
-
   components: {
     Header,
     CubeSpin,
@@ -75,10 +79,40 @@ export default {
     };
   },
   created() {
+    // Obtengo el producto detallado
     this.getProduct();
   },
+  mounted: function () {
+    // Se obtiene el email
+    this.email = localStorage.getItem("userEmail");
+    // Compruebo si he obtenido un email
+    if (this.email) {
+      // Establezco el usuario a logeado
+      this.user.loggedIn = true;
+      // Compruebo si el usuario es el administrador
+      if (this.email == "admin@admin.com") {
+        // Establezco el usuario como administrador
+        this.admin = true;
+      }
+    } else {
+      // Establezco el usuario a no logeado
+      this.user.loggedIn = false;
+      this.user.data = {};
+      this.admin = false;
+    }
+  },
+  // Obtengo los datos de la base de datos
+  firestore: {
+    carrito: db.collection("Carrito"),
+  },
   methods: {
-    getProduct: function () {
+    /**
+     * Función que obtiene el producto detallado sacando el ID de la url
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     */
+    getProduct() {
       // Se guarda en una variable la url de la página
       const url = document.URL.toString();
       // Se separa el string con el separador indicado ('/')
@@ -91,42 +125,52 @@ export default {
           // Se guarda los datos del resultado de la consulta en una variable
           this.producto = doc.data();
           this.loading = false;
-          // Si no existe
         } else {
+          // Si no existe
+          // Muestro mensaje de error
           this.$notify({
             title: "El producto no existe",
             type: "error",
             text: "No se ha podido encontrar el producto especificado.",
           });
+          // Redirijo al inicio
           this.$router.push({ name: "home" });
         }
       });
     },
-    stock(producto) {
-      if (producto.stock > 0) {
-        return false;
-      }
-      return true;
-    },
+    /**
+     * Función que añade un producto al carrito
+     *
+     * @author Rafa Salmerón <rafikisalmeronmartos@gmail.com>
+     *
+     * @param {Object} producto Producto que se añade al carrito
+     *
+     */
     addProduct(producto) {
+      // Compruebo si el usuario esta logeado
       if (this.user.loggedIn) {
-        console.log(this.carrito);
-        console.log(producto);
+        // Recorro el carrito del usuario
         for (var chart of this.carrito) {
+          // Compruebo si en el carrito hay ese producto ya
           if (chart.email == this.email && chart.idProduct == this.id) {
-            console.log("HAY");
+            // Establezco la cesta al carrito recorrido
             this.cesta = chart;
+            // Establezco la variable a true pare indicar que ya está el producto
             this.hay = true;
           }
         }
+        // Compruebo si el producto ya está en el carrito
         if (this.hay) {
-          if (this.cesta.cantidad == producto.stock) {
+          // Compruebo si la cantidad ya es igual o mayor al stock del producto
+          if (this.cesta.cantidad >= producto.stock) {
+            // Muestro mensaje de error
             this.$notify({
               title: "Añadir al carrito",
               type: "error",
               text: "No hay más stock disponible. Ya tienes el máximo número de artículos posible en el carrito.",
             });
           } else {
+            // Actualizo el carrito sumando la cantidad y el precio total
             db.collection("Carrito")
               .doc(this.cesta.id)
               .update({
@@ -136,6 +180,7 @@ export default {
                   parseFloat(producto.Precio),
                 producto,
               });
+            // Muestro mensaje de información
             this.$notify({
               title: "Añadir al carrito",
               type: "success",
@@ -143,6 +188,7 @@ export default {
             });
           }
         } else {
+          // Añado el producto al carritop
           db.collection("Carrito").add({
             email: this.email,
             idProduct: this.id,
@@ -150,14 +196,17 @@ export default {
             precioTotal: parseFloat(producto.Precio),
             producto,
           });
+          // Muestro mensaje de información
           this.$notify({
             title: "Añadir al carrito",
             type: "success",
             text: "Has añadido un producto al carrito.",
           });
         }
+        // Establezco la variable a false
         this.hay = false;
       } else {
+        // Muestro mensaje de error
         this.$notify({
           title: "Añadir al carrito",
           type: "error",
@@ -165,28 +214,6 @@ export default {
         });
       }
     },
-  },
-  computed: {
-    authenticated() {
-      return this.user.loggedIn;
-    },
-  },
-  mounted: function () {
-    this.email = localStorage.getItem("userEmail");
-    if (this.email) {
-      this.user.loggedIn = true;
-      if (this.email == "admin@admin.com") {
-        this.admin = true;
-      }
-    } else {
-      this.user.loggedIn = false;
-      this.user.data = {};
-      this.admin = false;
-    }
-  },
-
-  firestore: {
-    carrito: db.collection("Carrito"),
   },
 };
 </script>
