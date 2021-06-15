@@ -15,7 +15,7 @@ La página contiene tecnologías avanzadas de firebase, para todo el control de 
 </ul>
 
 
-<h3> Tienda Vue </h3>
+<h3> Producción </h3>
 (https://tienda-proyecto-cb7c6.firebaseapp.com/#/)
 
 <h3> Proyecto GitHub </h3>
