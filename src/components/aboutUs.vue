@@ -32,7 +32,7 @@
     <div class="text-aboutUs-container">
       <h3>¿Quiénes somos?</h3>
       <div class="text-aboutUs col-10 col-sm-9 col-md-6 col-lg-4 py-5">
-        Rafikify es una tienda online de ropa y complementos creada en 2020. Sin
+        Rafikify es una tienda online de ropa y complementos creada en 2021. Sin
         embargo, nuestro recorrido por el mundo de la moda comenzó hace más de
         40 años, cuando nuestros padres abrieron su primera tienda. En nuestra
         tienda online encontraréis las últimas tendencias en ropa y

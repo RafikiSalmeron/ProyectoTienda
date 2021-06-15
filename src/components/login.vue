@@ -41,7 +41,7 @@
       <button class="first" @click="loginEmail">Login</button>
       <button @click="login('Facebook')">Login con Facebook</button>
       <button @click="login('Google')">Login con Google</button>
-      <button @click="login('Github')">Login con Github</button>
+      <button @click="login('Github')">Login con GitHub</button>
       <button class="register" @click="registrar">Registrarse</button>
     </div>
 
@@ -175,14 +175,7 @@ export default {
           // Redirijo al inicio
           this.$router.push({ name: "home" });
         })
-        .catch(function () {
-          // Muestro mensaje de error
-          this.$notify({
-            title: "Inicio de Sesión",
-            type: "error",
-            text: "No se ha podido iniciar sesión.",
-          });
-        });
+        .catch(function () {});
     },
     /**
      * Función que logea al usuario con email y contraseña

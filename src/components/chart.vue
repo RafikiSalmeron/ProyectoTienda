@@ -12,12 +12,14 @@
         <div class="pedido-container">
           <div class="img-container">
             <p style="font-size: 1.2rem"><strong>Artículo</strong></p>
-            <img
-              :src="chart.producto.img"
-              class="img-article"
-              :title="chart.producto.Nombre"
-              :alt="chart.producto.Nombre"
-            />
+            <router-link v-bind:to="`/productDetail/${chart.idProduct}`">
+              <img
+                :src="chart.producto.img"
+                class="img-article"
+                :title="chart.producto.Nombre"
+                :alt="chart.producto.Nombre"
+              />
+            </router-link>
           </div>
           <div class="desc-container">
             <p>
@@ -195,9 +197,13 @@ export default {
         return;
       }
       // Recorro los productos del carrito
-      for (var item of this.carrito) {
+      for (var itemp of this.carrito) {
         // Compruebo si el stock o la cantidad es menor o igual a 0
-        if (parseFloat(item.producto.stock) <= 0 || item.cantidad <= 0) {
+        if (
+          parseFloat(itemp.producto.stock) <= 0 ||
+          itemp.cantidad <= 0 ||
+          parseFloat(itemp.producto.stock) - itemp.cantidad <= 0
+        ) {
           // Muestro mensaje de error
           this.$notify({
             title: "Error al realizar pedido",
@@ -208,13 +214,9 @@ export default {
           // Corto la ejecución
           return;
         }
-        // Establezco el stock a true
-        let stock = true;
-        // Compruebo si el producto se va a quedar
-        if (item.producto.stock - item.cantidad == 0) {
-          // Establezco stock a false
-          stock = false;
-        }
+      }
+      // Recorro los productos del carrito
+      for (var item of this.carrito) {
         // Actualizo el stock de los productos al realizar el pedido
         db.collection("Productos")
           .doc(item.idProduct)
@@ -223,29 +225,26 @@ export default {
             vecesVendido: item.producto.vecesVendido + item.cantidad,
           });
 
-        // Compruebo si el stock se quedará en 0
-        if (!stock) {
-          // Recorro todos los carritos
-          for (let itemCarro of this.carro) {
-            // Linkeo el array del carrito con un carrito vacío
-            this.$bind("carro", db.collection("Carrito"));
-            // Compruebo si el producto está en otros carritos
-            if (itemCarro.idProduct == item.idProduct) {
-              // Borro el producto del carrito
-              db.collection("Carrito")
-                .doc(itemCarro.id)
-                .update({
-                  producto: {
-                    Nombre: itemCarro.producto.Nombre,
-                    Precio: itemCarro.producto.Precio,
-                    descripcion: itemCarro.producto.descripcion,
-                    img: itemCarro.producto.img,
-                    stock: itemCarro.producto.stock - 1,
-                    novedad: itemCarro.producto.novedad,
-                    vecesVendido: itemCarro.producto.vecesVendido + 1,
-                  },
-                });
-            }
+        // Recorro todos los carritos
+        for (let itemCarro of this.carro) {
+          // Linkeo el array del carrito con un carrito vacío
+          this.$bind("carro", db.collection("Carrito"));
+          // Compruebo si el producto está en otros carritos
+          if (itemCarro.idProduct == item.idProduct) {
+            // Actualizo el producto del carrito
+            db.collection("Carrito")
+              .doc(itemCarro.id)
+              .update({
+                producto: {
+                  Nombre: itemCarro.producto.Nombre,
+                  Precio: itemCarro.producto.Precio,
+                  descripcion: itemCarro.producto.descripcion,
+                  img: itemCarro.producto.img,
+                  stock: itemCarro.producto.stock - item.cantidad,
+                  novedad: itemCarro.producto.novedad,
+                  vecesVendido: itemCarro.producto.vecesVendido + item.cantidad,
+                },
+              });
           }
         }
 

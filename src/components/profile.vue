@@ -208,12 +208,18 @@ export default {
         // Establezco el usuario como administrador
         this.admin = true;
         // Linkeo el array pedidos con la colección de pedidos
-        this.$bind("pedidos", db.collection("Pedidos"));
+        this.$bind(
+          "pedidos",
+          db.collection("Pedidos").orderBy("fecha", "desc")
+        );
       } else {
         // Linkeo el array pedidos con la colección de pedidos del usuario logeado
         this.$bind(
           "pedidos",
-          db.collection("Pedidos").where("email", "==", this.email)
+          db
+            .collection("Pedidos")
+            .where("email", "==", this.email)
+            .orderBy("fecha", "desc")
         );
       }
       // Espero a que carguen los pedidos

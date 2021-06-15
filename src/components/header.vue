@@ -277,8 +277,11 @@ export default {
           text: "Tienes que iniciar sesión para acceder al carrito.",
         });
       } else {
-        // Redirijo al carrito
-        this.$router.push({ name: "chart" });
+        // Compruebo que no estoy en el carrito
+        if (this.$route.name != "chart") {
+          // Redirijo al carrito
+          this.$router.push({ name: "chart" });
+        }
       }
     },
   },
