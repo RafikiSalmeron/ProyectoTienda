@@ -14,8 +14,8 @@
     >
       <img
         src="../assets/rafiki.png"
-        width="250px"
-        height="250px"
+        width="200px"
+        height="200px"
         title="Logo de mono"
         alt="Logo de mono"
       />
